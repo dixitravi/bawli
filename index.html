@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bawli Toli – Rajasthan Trip</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Font & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
+
+  <style>
+    :root {
+      --footer-bg: rgba(3, 7, 18, 0.92);
+      --footer-text: #e5e7eb;
+      --card-radius: 22px;
+      --border: rgba(148,163,184,0.45);
+      --accent: #f97316;
+      --accent-soft: rgba(249,115,22,0.55);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      color: var(--text);
+    }
+
+    /* Full-page Rajasthan background */
+    .bg-page {
+      position: fixed;
+      inset: 0;
+      background-image: url("https://images.unsplash.com/photo-1709620220232-12ecd7ca33a8?q=80&w=2676&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      filter: brightness(0.8);
+      z-index: -2;
+    }
+
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at top, rgba(15,23,42,0.35), transparent 55%),
+        linear-gradient(to bottom, rgba(15,23,42,0.2), rgba(15,23,42,0.9));
+      z-index: -1;
+    }
+
+    .page-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 1.8rem 1.1rem 3.8rem; /* space for footer */
+    }
+
+    .content-shell {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      flex: 1 0 auto;
+    }
+
+    /* Masthead with logo */
+    .masthead {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      margin-bottom: 1.7rem;
+    }
+
+    .logo-wrap {
+      width: 100px;
+      max-width: 32vw;
+      aspect-ratio: 1/1;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.9);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-wrap img {
+      width: 90%;
+      margin-top:15px;
+      object-fit: contain;
+    }
+
+    .masthead-text h1 {
+      font-size: clamp(1.8rem, 3.1vw, 2.4rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .masthead-text p {
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      max-width: 440px;
+    }
+
+    .trip-meta {
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .trip-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.12rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(226,232,240,0.8);
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      margin-left: 0.5rem;
+    }
+
+    /* Section heading */
+    .section-head {
+      margin: 0.5rem 0 1.6rem;
+    }
+
+    .section-eyebrow {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent-soft);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-sub {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 620px;
+    }
+
+    /* Grid for cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .trip-card {
+      position: relative;
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      background:
+        linear-gradient(140deg, rgba(15,23,42,0.96), rgba(15,23,42,0.8)),
+        radial-gradient(circle at 0 0, rgba(249,115,22,0.18), transparent 60%);
+      border: 1px solid var(--border);
+      box-shadow: 0 22px 45px rgba(0,0,0,0.8);
+      backdrop-filter: blur(18px);
+      transform: translateY(0) scale(1);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .trip-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 30px 70px rgba(15,23,42,0.95);
+      border-color: rgba(56,189,248,0.7);
+      background:
+        linear-gradient(145deg, rgba(15,23,42,0.98), rgba(17,24,39,0.8)),
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.22), transparent 65%);
+    }
+
+    .card-image {
+      position: relative;
+      height: 170px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .card-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(15,23,42,0.9), transparent 55%),
+        radial-gradient(circle at 0 0, rgba(249,115,22,0.3), transparent 60%);
+    }
+
+    .day-chip {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.16rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid rgba(251,146,60,0.95);
+      color: #fed7aa;
+    }
+
+    .day-chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #fb923c;
+      box-shadow: 0 0 10px rgba(251,146,60,0.9);
+    }
+
+    .city-pill {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      z-index: 2;
+      padding: 0.18rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      color: #e5e7eb;
+      background: rgba(15,23,42,0.98);
+      border: 1px solid rgba(148,163,184,0.7);
+    }
+
+    .card-body {
+      padding: 0.9rem 1.1rem 1.15rem;
+    }
+
+    .card-title {
+      font-size: 0.98rem;
+      margin-bottom: 0.28rem;
+    }
+
+    .hotel-city {
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 0.45rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+    }
+
+    .dates {
+      font-size: 0.82rem;
+      color: #e5e7eb;
+      margin-bottom: 0.18rem;
+    }
+
+    .nights {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .contact-label {
+      font-size: 0.82rem;
+      color: #e5e7eb;
+    }
+
+    .phone-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.22rem;
+      gap: 0.45rem;
+    }
+
+    .phone-text {
+      font-size: 0.8rem;
+      color: var(--muted);
+      word-break: break-word;
+    }
+
+    .call-icon-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #22c55e 0, #16a34a 45%, #059669 100%);
+      color: #f9fafb;
+      text-decoration: none;
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.75), 0 0 14px rgba(22,163,74,0.95);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+    }
+
+    .call-icon-btn i {
+      font-size: 1.1rem;
+    }
+
+    .call-icon-btn:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+      box-shadow: 0 0 0 1px rgba(34,197,94,1), 0 0 18px rgba(34,197,94,1);
+    }
+
+    .call-icon-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 0 0 1px rgba(22,163,74,0.9), 0 0 10px rgba(21,128,61,0.9);
+    }
+
+    /* Sticky footer */
+    .footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      padding: 0.6rem 1.25rem;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-top: 1px solid rgba(148,163,184,0.4);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+
+    @media (max-width: 640px) {
+      .page-shell {
+        padding: 1.4rem 1rem 3.8rem;
+      }
+      .masthead {
+        flex-direction: row;
+        align-items: center;
+      }
+      .masthead-text h1 {
+        font-size: 1.6rem;
+      }
+    }
+
+    /* Individual card background images */
+    .img-jaisalmer {
+      background-image: url("https://images.unsplash.com/photo-1762254804915-967868db1ece?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0");
+    }
+
+    .img-jodhpur-1 {
+      background-image: url("https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?auto=format&fit=crop&w=1200&q=80");
+    }
+
+    .img-ranakpur {
+      	  background-image: url("bonfire.jpg");
+    }
+
+.img-jodhpur-2 {
+  background-image: url("https://images.unsplash.com/photo-1569001852726-323fd51b26f3?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    }
+  </style>
+</head>
+<body>
+  <!-- Full-page background -->
+  <div class="bg-page"></div>
+  <div class="bg-overlay"></div>
+
+  <div class="page-shell">
+    <div class="content-shell">
+      <!-- Masthead -->
+      <header class="masthead">
+        <div class="logo-wrap">
+          <!-- Use your uploaded logo file name in the project -->
+          <img src="PRINT-LOGO.png" alt="Bawli Toli Logo" />
+        </div>
+        <div class="masthead-text">
+          <h1>Bawli Toli</h1>
+          <p>Rajasthan group trip – stay details, contacts and day-wise destinations at a glance.</p>
+          <div class="trip-meta">
+            <span>
+              28 Dec 2025 – 2 Jan 2026
+              <span class="badge-pill">
+                <i class="bx bx-map"></i>
+                Jaiselmer • Jodhpur • Ranakpur
+              </span>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Section heading -->
+      <section class="section-head">
+        <div class="section-eyebrow">Stay timeline</div>
+        <h2 class="section-title">Day-wise hotel plan</h2>
+        <p class="section-sub">
+          Each card shows check-in / check-out, total nights and a tap-to-call button for the contact person.
+        </p>
+      </section>
+
+      <!-- Itinerary cards -->
+      <section class="grid">
+        <!-- Card 1: Jaisalmer -->
+        <article class="trip-card">
+          <div class="card-image img-jaisalmer">
+            <div class="day-chip">
+              <span class="day-chip-dot"></span>
+              Day 1
+            </div>
+            <div class="city-pill">Jaiselmer • Desert Camp</div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Carvaan Resort Luxury Desert Camp</h3>
+            <div class="hotel-city">Jaiselmer (Sam)</div>
+            <div class="dates">Check in: 28-Dec-25</div>
+            <div class="dates">Check out: 29-Dec-25</div>
+            <div class="nights">Stay: 1 night</div>
+
+            <div class="contact-label">Contact person: Kapil</div>
+            <div class="phone-row">
+              <div class="phone-text">+91 7877954526</div>
+              <a href="tel:+917877954526" class="call-icon-btn" aria-label="Call Kapil">
+                <i class="bx bx-phone-call"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2: Ratanda, Jodhpur -->
+        <article class="trip-card">
+          <div class="card-image img-jodhpur-1">
+            <div class="day-chip">
+              <span class="day-chip-dot"></span>
+              Day 2–3
+            </div>
+            <div class="city-pill">Ratanda • Jodhpur</div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Marwar Hotel and Garden</h3>
+            <div class="hotel-city">Ratanda (Jodhpur)</div>
+            <div class="dates">Check in: 29-Dec-25</div>
+            <div class="dates">Check out: 31-Dec-25</div>
+            <div class="nights">Stay: 2 nights</div>
+
+            <div class="contact-label">Contact person: Sunil</div>
+            <div class="phone-row">
+              <div class="phone-text">+91 9027282035</div>
+              <a href="tel:+919027282035" class="call-icon-btn" aria-label="Call Sunil Ratanda">
+                <i class="bx bx-phone-call"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3: Ranakpur -->
+        <article class="trip-card">
+          <div class="card-image img-ranakpur">
+            <div class="day-chip">
+              <span class="day-chip-dot"></span>
+              Day 4
+            </div>
+            <div class="city-pill">Ranakpur • Resort</div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Ranakpur Safari Resort</h3>
+            <div class="hotel-city">Ranakpur</div>
+            <div class="dates">Check in: 31-Dec-25</div>
+            <div class="dates">Check out: 1-Jan-26</div>
+            <div class="nights">Stay: 1 night</div>
+
+            <div class="contact-label">Contact person: To be updated</div>
+            <div class="phone-row">
+              <div class="phone-text">Phone: –</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 4: Jodhpur final night -->
+        <article class="trip-card">
+          <div class="card-image img-jodhpur-2">
+            <div class="day-chip">
+              <span class="day-chip-dot"></span>
+              Day 5
+            </div>
+            <div class="city-pill">Jodhpur • City Stay</div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Marwar Hotel and Garden</h3>
+            <div class="hotel-city">Jodhpur</div>
+            <div class="dates">Check in: 1-Jan-26</div>
+            <div class="dates">Check out: 2-Jan-26</div>
+            <div class="nights">Stay: 1 night</div>
+
+            <div class="contact-label">Contact person: Sunil</div>
+            <div class="phone-row">
+              <div class="phone-text">+91 9027282035</div>
+              <a href="tel:+919027282035" class="call-icon-btn" aria-label="Call Sunil Jodhpur">
+                <i class="bx bx-phone-call"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+      </section>
+    </div>
+  </div>
+<audio id="bg-music"
+       src="https://pagalall.com/wp-content/uploads/Chaudhary%20-%20Amit%20Trivedi%20Ft.%20Mame%20Khan%20(pagalall.com).mp3"
+       loop>
+  Your browser does not support the audio element.
+</audio>
+
+<script>
+  // Start music after first user interaction (click/tap)
+  const audio = document.getElementById('bg-music');
+
+  function enableMusicOnce() {
+    audio.play().catch(() => {
+      // silently ignore if browser still blocks
+    });
+    document.removeEventListener('click', enableMusicOnce);
+    document.removeEventListener('touchstart', enableMusicOnce);
+  }
+
+  document.addEventListener('click', enableMusicOnce);
+  document.addEventListener('touchstart', enableMusicOnce);
+</script>
+
+  <!-- Sticky footer -->
+  <footer class="footer">
+    © 2025 All rights reserved. Bawli Toli
+  </footer>
+</body>
+</html>
