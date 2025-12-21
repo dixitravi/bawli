@@ -233,19 +233,11 @@
     .carousel-track {
       display: flex;
       gap: 1.5rem;
-      overflow-x: auto;
+      overflow-x: hidden;
       overflow-y: visible;
       flex: 1 1 auto;
       padding: 70px 80px;
       scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      scroll-snap-type: x proximity;
-    }
-
-    .carousel-track::-webkit-scrollbar {
-      display: none;
     }
 
     .carousel-track .trip-card:first-child {
@@ -276,7 +268,6 @@
         box-shadow 0.3s ease,
         border-color 0.3s ease,
         background 0.3s ease;
-      scroll-snap-align: center;
     }
 
     .trip-card.active {
@@ -729,4 +720,505 @@
         <!-- Masthead -->
         <header class="masthead">
           <div class="logo-wrap">
-            <img src="PRINT-LOGO.png" alt
+            <img src="PRINT-LOGO.png" alt="Bawli Toli Logo" />
+          </div>
+          <div class="masthead-text">
+            <h1>Bawli Toli</h1>
+            <p>Rajasthan group trip – stay details, contacts and day-wise destinations at a glance.</p>
+            <div class="trip-meta">
+              <div class="trip-meta-line">
+                27 Dec 2025 – 2 Jan 2026
+              </div>
+              <div class="trip-meta-line">
+                <span class="badge-pill">
+                  <i class="bx bx-map"></i>
+                  Train • Jaiselmer • Jodhpur • Ranakpur
+                </span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Burger with PNG icon -->
+        <button class="burger-btn" id="burgerBtn" aria-label="Menu">
+          <img src="burger-bar.png" alt="Menu" />
+        </button>
+        <nav class="menu-dropdown" id="menuDropdown">
+          <a href="#images">Images</a>
+          <a href="javascript:void(0)" id="testLink">Test</a>
+        </nav>
+      </div>
+
+      <!-- Section heading -->
+      <section class="section-head">
+        <div class="section-eyebrow">Stay timeline</div>
+        <h2 class="section-title">Day-wise travel & stay</h2>
+        <p class="section-sub">
+          Cards cover train travel, hotel check-in/check-out, total nights and contact info where available.
+        </p>
+      </section>
+
+      <!-- Carousel -->
+      <section class="carousel-shell">
+        <button class="carousel-arrow" id="prevCard" aria-label="Previous stop">
+          <i class="bx bx-chevron-left"></i>
+        </button>
+
+        <div class="carousel-track" id="cardGrid">
+          <!-- Card 0: Day 1 – Train to Rajasthan -->
+          <article class="trip-card" data-day="1">
+            <div class="card-image img-train-start">
+              <div class="day-chip">
+                <span class="day-chip-dot"></span>
+                Day 1
+              </div>
+              <div class="city-pill">On the way • By Train</div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">SSB JSM SF EXP</h3>
+              <div class="hotel-city">Train no: 12249</div>
+              <div class="dates">Travel date: 27-Dec-25</div>
+              <div class="nights">Overnight train from Delhi (NCR) to Jaisalmer</div>
+              <table class="card-timetable">
+                <thead>
+                  <tr>
+                    <th>Station</th>
+                    <th>Arrival</th>
+                    <th>Departure</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>SHAKURBASTI</td>
+                    <td>Source</td>
+                    <td>17:10</td>
+                  </tr>
+                  <tr>
+                    <td>DELHI CANTT</td>
+                    <td>17:54</td>
+                    <td>17:56</td>
+                  </tr>
+                  <tr>
+                    <td>GURGAON</td>
+                    <td>18:11</td>
+                    <td>18:13</td>
+                  </tr>
+                  <tr>
+                    <td>JAISALMER</td>
+                    <td>09:00</td>
+                    <td>–</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <!-- Card 1: Jaisalmer -->
+          <article class="trip-card" data-day="2">
+            <div class="card-image img-jaisalmer">
+              <div class="day-chip">
+                <span class="day-chip-dot"></span>
+                Day 2
+              </div>
+              <div class="city-pill">Jaiselmer • Desert Camp</div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Carvaan Resort Luxury Desert Camp</h3>
+              <div class="hotel-city">Jaiselmer (Sam)</div>
+              <div class="dates">Check in: 28-Dec-25</div>
+              <div class="dates">Check out: 29-Dec-25</div>
+              <div class="nights">Stay: 1 night</div>
+              <div class="contact-label">Contact person: Kapil</div>
+              <div class="phone-row">
+                <div class="phone-text">+91 7877954526</div>
+                <a href="tel:+917877954526" class="call-icon-btn" aria-label="Call Kapil">
+                  <i class="bx bx-phone-call"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: Ratanda, Jodhpur -->
+          <article class="trip-card" data-day="3">
+            <div class="card-image img-jodhpur-1">
+              <div class="day-chip">
+                <span class="day-chip-dot"></span>
+                Day 3–4
+              </div>
+              <div class="city-pill">Ratanda • Jodhpur</div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Marwar Hotel and Garden</h3>
+              <div class="hotel-city">Ratanda (Jodhpur)</div>
+              <div class="dates">Check in: 29-Dec-25</div>
+              <div class="dates">Check out: 31-Dec-25</div>
+              <div class="nights">Stay: 2 nights</div>
+              <div class="contact-label">Contact person: Sunil</div>
+              <div class="phone-row">
+                <div class="phone-text">+91 9027282035</div>
+                <a href="tel:+919027282035" class="call-icon-btn" aria-label="Call Sunil Ratanda">
+                  <i class="bx bx-phone-call"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3: Ranakpur -->
+          <article class="trip-card" data-day="5">
+            <div class="card-image img-ranakpur">
+              <div class="day-chip">
+                <span class="day-chip-dot"></span>
+                Day 5
+              </div>
+              <div class="city-pill">Ranakpur • Resort</div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Ranakpur Safari Resort</h3>
+              <div class="hotel-city">Ranakpur</div>
+              <div class="dates">Check in: 31-Dec-25</div>
+              <div class="dates">Check out: 1-Jan-26</div>
+              <div class="nights">Stay: 1 night</div>
+              <div class="contact-label">Contact person: To be updated</div>
+              <div class="phone-row">
+                <div class="phone-text">Phone: –</div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4: Jodhpur final night -->
+          <article class="trip-card" data-day="6">
+            <div class="card-image img-jodhpur-2">
+              <div class="day-chip">
+                <span class="day-chip-dot"></span>
+                Day 6
+              </div>
+              <div class="city-pill">Jodhpur • City Stay</div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Marwar Hotel and Garden</h3>
+              <div class="hotel-city">Jodhpur</div>
+              <div class="dates">Check in: 1-Jan-26</div>
+              <div class="dates">Check out: 2-Jan-26</div>
+              <div class="nights">Stay: 1 night</div>
+              <div class="contact-label">Contact person: Sunil</div>
+              <div class="phone-row">
+                <div class="phone-text">+91 9027282035</div>
+                <a href="tel:+919027282035" class="call-icon-btn" aria-label="Call Sunil Jodhpur">
+                  <i class="bx bx-phone-call"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 5: Return train -->
+          <article class="trip-card" data-day="7">
+            <div class="card-image img-train-end">
+              <div class="day-chip">
+                <span class="day-chip-dot"></span>
+                Day 7
+              </div>
+              <div class="city-pill">Back home • By Train</div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">JU DEE SF EXP</h3>
+              <div class="hotel-city">Train no: 22481</div>
+              <div class="dates">Travel date: 2-Jan-26</div>
+              <div class="nights">Overnight train from Jodhpur to Delhi (NCR)</div>
+              <table class="card-timetable">
+                <thead>
+                  <tr>
+                    <th>Station</th>
+                    <th>Arrival</th>
+                    <th>Departure</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>JODHPUR JN</td>
+                    <td>Source</td>
+                    <td>18:30</td>
+                  </tr>
+                  <tr>
+                    <td>GURGAON</td>
+                    <td>04:27</td>
+                    <td>04:29</td>
+                  </tr>
+                  <tr>
+                    <td>DELHI CANTT</td>
+                    <td>04:47</td>
+                    <td>04:49</td>
+                  </tr>
+                  <tr>
+                    <td>DELHI S ROHILLA</td>
+                    <td>05:20</td>
+                    <td>–</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+
+        <button class="carousel-arrow" id="nextCard" aria-label="Next stop">
+          <i class="bx bx-chevron-right"></i>
+        </button>
+      </section>
+    </div>
+  </div>
+
+  <!-- Background music -->
+  <audio id="bg-music"
+         src="https://pagalall.com/wp-content/uploads/Chaudhary%20-%20Amit%20Trivedi%20Ft.%20Mame%20Khan%20(pagalall.com).mp3"
+         loop>
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Modal for Test link -->
+  <div class="modal-backdrop" id="dateModal">
+    <div class="modal">
+      <h3>Set trip date (test)</h3>
+      <label for="testDate">Select date</label>
+      <input type="date" id="testDate" />
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="closeModalBtn">Cancel</button>
+        <button class="btn btn-primary" id="saveDateBtn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Big card popup -->
+  <div class="card-popup-backdrop" id="cardPopupBackdrop">
+    <div class="card-popup" id="cardPopup">
+      <button class="popup-close" id="popupCloseBtn" aria-label="Close">
+        <i class="bx bx-x"></i>
+      </button>
+      <div class="card-popup-inner" id="cardPopupInner">
+        <!-- Cloned card will be inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky footer -->
+  <footer class="footer">
+    © 2025 All rights reserved. Bawli Toli (Version 2.4)
+  </footer>
+
+  <script>
+    const pageShell = document.getElementById('pageShell');
+
+    // Burger menu toggle
+    const burgerBtn = document.getElementById('burgerBtn');
+    const menuDropdown = document.getElementById('menuDropdown');
+
+    burgerBtn.addEventListener('click', () => {
+      const isOpen = menuDropdown.style.display === 'block';
+      menuDropdown.style.display = isOpen ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!burgerBtn.contains(e.target) && !menuDropdown.contains(e.target)) {
+        menuDropdown.style.display = 'none';
+      }
+    });
+
+    // Background music after first interaction [web:374]
+    const audioEl = document.getElementById('bg-music');
+    function enableMusicOnce() {
+      audioEl.play().catch(() => {});
+      document.removeEventListener('click', enableMusicOnce);
+      document.removeEventListener('touchstart', enableMusicOnce);
+    }
+    document.addEventListener('click', enableMusicOnce);
+    document.addEventListener('touchstart', enableMusicOnce);
+
+    // Modal for Test link
+    const testLink = document.getElementById('testLink');
+    const dateModal = document.getElementById('dateModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const saveDateBtn = document.getElementById('saveDateBtn');
+    const testDateInput = document.getElementById('testDate');
+
+    testLink.addEventListener('click', () => {
+      dateModal.style.display = 'flex';
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      dateModal.style.display = 'none';
+    });
+
+    dateModal.addEventListener('click', (e) => {
+      if (e.target === dateModal) {
+        dateModal.style.display = 'none';
+      }
+    });
+
+    // Carousel logic
+    const cardGrid = document.getElementById('cardGrid');
+    const cards = Array.from(cardGrid.querySelectorAll('.trip-card'));
+    const prevCardBtn = document.getElementById('prevCard');
+    const nextCardBtn = document.getElementById('nextCard');
+
+    // -1 means no active card yet
+    let activeIndex = -1;
+
+    function updateCarousel(scrollBehavior = 'smooth') {
+      cards.forEach((card, idx) => {
+        card.classList.toggle('active', idx === activeIndex);
+      });
+
+      if (activeIndex < 0) return;  // nothing to center
+
+      const activeCard = cards[activeIndex];
+      const gridRect = cardGrid.getBoundingClientRect();
+      const cardRect = activeCard.getBoundingClientRect();
+      const offset = cardRect.left - (gridRect.left + (gridRect.width - cardRect.width) / 2);
+
+      cardGrid.scrollBy({ left: offset, behavior: scrollBehavior });
+    }
+
+    prevCardBtn.addEventListener('click', () => {
+      if (activeIndex < 0) {
+        activeIndex = 0;
+      } else {
+        activeIndex = (activeIndex - 1 + cards.length) % cards.length;
+      }
+      updateCarousel();
+    });
+
+    nextCardBtn.addEventListener('click', () => {
+      if (activeIndex < 0) {
+        activeIndex = 0;
+      } else {
+        activeIndex = (activeIndex + 1) % cards.length;
+      }
+      updateCarousel();
+    });
+
+    // Touch-swipe support for mobile/tablet [web:450][web:453]
+    let touchStartX = 0;
+    let touchCurrentX = 0;
+    let isSwiping = false;
+
+    cardGrid.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) return;
+      touchStartX = e.touches[0].clientX;
+      touchCurrentX = touchStartX;
+      isSwiping = true;
+    }, { passive: true });
+
+    cardGrid.addEventListener('touchmove', (e) => {
+      if (!isSwiping || e.touches.length !== 1) return;
+      touchCurrentX = e.touches[0].clientX;
+    }, { passive: true });
+
+    cardGrid.addEventListener('touchend', () => {
+      if (!isSwiping) return;
+      const deltaX = touchCurrentX - touchStartX;
+      const threshold = 40; // px needed to trigger swipe
+
+      if (deltaX > threshold) {
+        // swipe right -> previous card
+        if (activeIndex < 0) {
+          activeIndex = 0;
+        } else {
+          activeIndex = (activeIndex - 1 + cards.length) % cards.length;
+        }
+        updateCarousel();
+      } else if (deltaX < -threshold) {
+        // swipe left -> next card
+        if (activeIndex < 0) {
+          activeIndex = 0;
+        } else {
+          activeIndex = (activeIndex + 1) % cards.length;
+        }
+        updateCarousel();
+      }
+
+      isSwiping = false;
+    });
+
+    // Map calendar dates to card indexes
+    const DATE_TO_CARD = {
+      '2025-12-27': 0, // Train to Rajasthan
+      '2025-12-28': 1, // Jaiselmer
+      '2025-12-29': 2, // Ratanda
+      '2025-12-30': 2, // Ratanda (same stay)
+      '2025-12-31': 3, // Ranakpur
+      '2026-01-01': 4, // Jodhpur final night
+      '2026-01-02': 5  // Return train
+    };
+
+    // Get today in YYYY-MM-DD format (local) [web:373]
+    function getTodayKey() {
+      const d = new Date();
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    // date -> card mapping for test modal as well
+    function setActiveByDate(dateStr) {
+      if (DATE_TO_CARD[dateStr] != null) {
+        activeIndex = DATE_TO_CARD[dateStr];
+        updateCarousel();
+      }
+    }
+
+    // Test date save
+    saveDateBtn.addEventListener('click', () => {
+      const value = testDateInput.value; // YYYY-MM-DD
+      if (!value) {
+        dateModal.style.display = 'none';
+        return;
+      }
+      setActiveByDate(value);
+      dateModal.style.display = 'none';
+    });
+
+    // Big card popup on click
+    const cardPopupBackdrop = document.getElementById('cardPopupBackdrop');
+    const cardPopupInner = document.getElementById('cardPopupInner');
+    const popupCloseBtn = document.getElementById('popupCloseBtn');
+
+    function openCardPopup(card) {
+      cardPopupInner.innerHTML = '';
+      const clone = card.cloneNode(true);
+      clone.classList.remove('active');
+      cardPopupInner.appendChild(clone);
+      pageShell.classList.add('blurred');
+      cardPopupBackdrop.style.display = 'flex';
+    }
+
+    function closeCardPopup() {
+      cardPopupBackdrop.style.display = 'none';
+      pageShell.classList.remove('blurred');
+    }
+
+    cards.forEach((card, idx) => {
+      card.addEventListener('click', () => {
+        activeIndex = idx;
+        updateCarousel();
+        openCardPopup(card);
+      });
+    });
+
+    popupCloseBtn.addEventListener('click', closeCardPopup);
+
+    cardPopupBackdrop.addEventListener('click', (e) => {
+      if (e.target === cardPopupBackdrop) {
+        closeCardPopup();
+      }
+    });
+
+    // Initial state – highlight only if today's date matches
+    const todayKey = getTodayKey();
+    if (Object.prototype.hasOwnProperty.call(DATE_TO_CARD, todayKey)) {
+      activeIndex = DATE_TO_CARD[todayKey];
+      updateCarousel('auto');
+    } else {
+      cards.forEach(card => card.classList.remove('active'));
+    }
+  </script>
+</body>
+</html>
