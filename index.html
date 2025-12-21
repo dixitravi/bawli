@@ -449,23 +449,45 @@
       font-size: 1.6rem;
     }
 
-    /* Sticky footer */
-    .footer {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: var(--footer-bg);
-      color: var(--footer-text);
-      padding: 0.6rem 1.25rem;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-top: 1px solid rgba(148,163,184,0.4);
-      backdrop-filter: blur(12px);
-      z-index: 10;
-    }
+/* Updated Sticky footer - Left/Right layout */
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  padding: 0.6rem 1.25rem;
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(148,163,184,0.4);
+  backdrop-filter: blur(12px);
+  z-index: 10;
+}
+
+.footer-left {
+  font-weight: 400;
+}
+
+.footer-right {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* Mobile footer - replace with data-version */
+@media (max-width: 640px) {
+  .footer-right {
+    font-size: 0.6rem;
+  }
+ 
+}
+
+
+
 
     /* Responsive (mobile overrides) */
     @media (max-width: 640px) {
@@ -998,10 +1020,13 @@
     </div>
   </div>
 
-  <!-- Sticky footer -->
-  <footer class="footer">
-    © 2025 All rights reserved. Bawli Toli (Version 2.4)
-  </footer>
+	<!-- Updated Sticky footer - Left/Right layout -->
+	<footer class="footer">
+	  <div class="footer-left">
+		© 2025 All rights reserved. Bawli Toli
+	  </div>
+	  <div class="footer-right" data-version="2.5">Version - 2.5</div>
+	</footer>
 
   <script>
     const pageShell = document.getElementById('pageShell');
@@ -1021,7 +1046,7 @@
       }
     });
 
-    // Background music after first interaction [web:374]
+    // Background music after first interaction
     const audioEl = document.getElementById('bg-music');
     function enableMusicOnce() {
       audioEl.play().catch(() => {});
@@ -1094,47 +1119,56 @@
       updateCarousel();
     });
 
-    // Touch-swipe support for mobile/tablet [web:450][web:453]
-    let touchStartX = 0;
-    let touchCurrentX = 0;
-    let isSwiping = false;
+    // Smooth touch-drag + momentum for mobile/tablet [web:11][web:12][web:15]
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    let startScrollLeft = 0;
+    let velocity = 0;
+    let raf = null;
+    let prevScrollLeft = 0;
 
     cardGrid.addEventListener('touchstart', (e) => {
       if (e.touches.length !== 1) return;
-      touchStartX = e.touches[0].clientX;
-      touchCurrentX = touchStartX;
-      isSwiping = true;
+      cancelAnimationFrame(raf);
+      isDragging = true;
+      startX = e.touches[0].clientX;
+      startScrollLeft = cardGrid.scrollLeft;
+      prevScrollLeft = startScrollLeft;
+      velocity = 0;
     }, { passive: true });
 
     cardGrid.addEventListener('touchmove', (e) => {
-      if (!isSwiping || e.touches.length !== 1) return;
-      touchCurrentX = e.touches[0].clientX;
-    }, { passive: true });
+      if (!isDragging || e.touches.length !== 1) return;
+      e.preventDefault(); // Block vertical scroll during horizontal drag
+      currentX = e.touches[0].clientX;
+      const walk = (startX - currentX) * 1.5; // Smooth multiplier
+      cardGrid.scrollLeft = startScrollLeft + walk;
+      velocity = cardGrid.scrollLeft - prevScrollLeft;
+      prevScrollLeft = cardGrid.scrollLeft;
+    }, { passive: false });
 
     cardGrid.addEventListener('touchend', () => {
-      if (!isSwiping) return;
-      const deltaX = touchCurrentX - touchStartX;
-      const threshold = 40; // px needed to trigger swipe
-
-      if (deltaX > threshold) {
-        // swipe right -> previous card
-        if (activeIndex < 0) {
-          activeIndex = 0;
+      if (!isDragging) return;
+      isDragging = false;
+      
+      // Momentum animation
+      function momentumLoop() {
+        cardGrid.scrollLeft += velocity * 0.95; // Friction
+        velocity *= 0.95;
+        
+        if (Math.abs(velocity) > 0.5) {
+          raf = requestAnimationFrame(momentumLoop);
         } else {
-          activeIndex = (activeIndex - 1 + cards.length) % cards.length;
+          // Snap to nearest card
+          const cardWidth = 320 + 24; // card + gap
+          const scrollLeft = cardGrid.scrollLeft;
+          const targetIndex = Math.round(scrollLeft / cardWidth);
+          activeIndex = Math.max(0, Math.min(targetIndex, cards.length - 1));
+          updateCarousel('smooth');
         }
-        updateCarousel();
-      } else if (deltaX < -threshold) {
-        // swipe left -> next card
-        if (activeIndex < 0) {
-          activeIndex = 0;
-        } else {
-          activeIndex = (activeIndex + 1) % cards.length;
-        }
-        updateCarousel();
       }
-
-      isSwiping = false;
+      raf = requestAnimationFrame(momentumLoop);
     });
 
     // Map calendar dates to card indexes
@@ -1148,7 +1182,7 @@
       '2026-01-02': 5  // Return train
     };
 
-    // Get today in YYYY-MM-DD format (local) [web:373]
+    // Get today in YYYY-MM-DD format (local)
     function getTodayKey() {
       const d = new Date();
       const year = d.getFullYear();
