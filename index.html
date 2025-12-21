@@ -238,10 +238,9 @@
       flex: 1 1 auto;
       padding: 70px 80px;
       scroll-behavior: smooth;
-	    /* Add these properties */
-	  transform: translateZ(0); /* Force hardware acceleration */
-	  will-change: scroll-position;
-	  -webkit-overflow-scrolling: touch; /* iOS momentum */
+      transform: translateZ(0);
+      will-change: scroll-position;
+      -webkit-overflow-scrolling: touch;
     }
 
     .carousel-track .trip-card:first-child {
@@ -294,7 +293,6 @@
       background-position: center;
     }
 
-    /* global dark overlay above any background */
     .card-image::after {
       content: "";
       position: absolute;
@@ -453,45 +451,41 @@
       font-size: 1.6rem;
     }
 
-/* Updated Sticky footer - Left/Right layout */
-.footer {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--footer-bg);
-  color: var(--footer-text);
-  padding: 0.6rem 1.25rem;
-  font-size: 0.8rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid rgba(148,163,184,0.4);
-  backdrop-filter: blur(12px);
-  z-index: 10;
-}
+    /* Updated Sticky footer - Left/Right layout */
+    .footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      padding: 0.6rem 1.25rem;
+      font-size: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(148,163,184,0.4);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
 
-.footer-left {
-  font-weight: 400;
-}
+    .footer-left {
+      font-weight: 400;
+    }
 
-.footer-right {
-  font-size: 0.75rem;
-  color: var(--muted);
-  font-weight: 500;
-  letter-spacing: 0.05em;
-}
+    .footer-right {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
 
-/* Mobile footer - replace with data-version */
-@media (max-width: 640px) {
-  .footer-right {
-    font-size: 0.6rem;
-  }
- 
-}
-
-
-
+    /* Mobile footer - replace with data-version */
+    @media (max-width: 640px) {
+      .footer-right {
+        font-size: 0.6rem;
+      }
+    }
 
     /* Responsive (mobile overrides) */
     @media (max-width: 640px) {
@@ -527,9 +521,96 @@
         flex: 1 1 auto;
         transform: scale(1);
         opacity: 1;
+        position: relative;
+        background-size: cover !important;
+        background-position: center !important;
       }
 
-      /* Hide card images in list on mobile */
+      /* Mobile: Images as blurred background BEHIND text (no height change) */
+      .trip-card[data-day="1"] {
+        background-image: linear-gradient(140deg, rgba(15,23,42,0.96), rgba(15,23,42,0.8)),
+                          url("https://plus.unsplash.com/premium_photo-1661937674312-89f00c7e44e7?q=80&w=2676&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+      }
+      
+      .trip-card[data-day="2"] {
+        background-image: linear-gradient(140deg, rgba(15,23,42,0.96), rgba(15,23,42,0.8)),
+                          url("https://images.unsplash.com/photo-1762254804915-967868db1ece?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0");
+      }
+      
+      .trip-card[data-day="3"] {
+        background-image: linear-gradient(140deg, rgba(15,23,42,0.96), rgba(15,23,42,0.8)),
+                          url("https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?auto=format&fit=crop&w=1200&q=80");
+      }
+      
+      .trip-card[data-day="5"] {
+        background-image: linear-gradient(140deg, rgba(15,23,42,0.96), rgba(15,23,42,0.8)),
+                          url("bonfire.jpg");
+      }
+      
+      .trip-card[data-day="6"] {
+        background-image: linear-gradient(140deg, rgba(15,23,42,0.96), rgba(15,23,42,0.8)),
+                          url("https://images.unsplash.com/photo-1569001852726-323fd51b26f3?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+      }
+      
+      .trip-card[data-day="7"] {
+        background-image: linear-gradient(140deg, rgba(15,23,42,0.96), rgba(15,23,42,0.8)),
+                          url("https://plus.unsplash.com/premium_photo-1661937674312-89f00c7e44e7?q=80&w=2676&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+      }
+      
+	  
+	  /* Fix: Last train card flipped image on mobile */
+@media (max-width: 640px) {
+  .trip-card[data-day="7"] {
+    position: relative;
+  }
+  
+  .trip-card[data-day="7"]::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(140deg, rgba(15,23,42,0.96), rgba(15,23,42,0.8)),
+      url("https://plus.unsplash.com/premium_photo-1661937674312-89f00c7e44e7?q=80&w=2676&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-size: cover;
+    background-position: center;
+    transform: scaleX(-1);
+    filter: blur(3px) brightness(0.6);
+    opacity: 0.4;
+    z-index: 0;
+  }
+  
+  .trip-card[data-day="7"].active::before {
+    filter: blur(1px) brightness(0.85);
+    opacity: 0.25;
+  }
+}
+
+
+      /* Mobile blurred effect */
+      .trip-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: inherit;
+        filter: blur(3px) brightness(0.6);
+        opacity: 0.4;
+        z-index: 0;
+      }
+      
+      /* Active card: less blur */
+      .trip-card.active::before {
+        filter: blur(1px) brightness(0.85);
+        opacity: 0.25;
+      }
+      
+      /* Text/content above image */
+      .trip-card .card-image,
+      .trip-card .card-body {
+        position: relative;
+        z-index: 1;
+      }
+      
+      /* Hide original card-image container */
       .trip-card .card-image {
         display: none;
       }
@@ -665,7 +746,6 @@
       z-index: 40;
     }
 
-    /* mobile: slightly lighter popup backdrop */
     @media (max-width: 640px) {
       .card-popup-backdrop {
         background: rgba(0,0,0,0.55);
@@ -733,12 +813,64 @@
     .popup-close i {
       font-size: 1.2rem;
     }
+	
+	/* Page blurred when intro is visible */
+	.page-shell.blur-intro {
+	  filter: blur(10px);
+	  pointer-events: none;
+	}
+
+	/* Fullscreen intro overlay */
+	.intro-overlay {
+	  position: fixed;
+	  inset: 0;
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  z-index: 50;
+	  background: rgba(15,23,42,0.55); /* soft dark veil */
+	}
+
+	/* Circular image with dotted yellow border */
+	.intro-photo-wrap {
+	  width: 220px;
+	  height: 220px;
+	  border-radius: 50%;
+	  padding: 6px; /* space for dotted border */
+	  border: 5px dotted #facc15; /* yellow */
+	  background: #ffffff;
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  overflow: hidden;
+	}
+
+	.intro-photo-wrap img {
+	  width: 100%;
+	  height: 100%;
+	  object-fit: cover;
+	}
+	
+	/* Lock scroll when intro is open */
+.body-no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
+
   </style>
 </head>
 <body>
   <!-- Background -->
   <div class="bg-page"></div>
   <div class="bg-overlay"></div>
+
+	<!-- Intro overlay -->
+	<div class="intro-overlay" id="introOverlay">
+	  <div class="intro-photo-wrap">
+		<img src="kg.png" alt="Welcome" />
+	  </div>
+	</div>
 
   <div class="page-shell" id="pageShell">
     <div class="content-shell">
@@ -1024,16 +1156,39 @@
     </div>
   </div>
 
-	<!-- Updated Sticky footer - Left/Right layout -->
-	<footer class="footer">
-	  <div class="footer-left">
-		© 2025 All rights reserved. Bawli Toli
-	  </div>
-	  <div class="footer-right" data-version="2.8">Version - 2.8</div>
-	</footer>
+  <!-- Updated Sticky footer - Left/Right layout -->
+  <footer class="footer">
+    <div class="footer-left">
+      © 2025 All rights reserved. Bawli Toli
+    </div>
+    <div class="footer-right" data-version="3.0">Version - 3.0</div>
+  </footer>
 
   <script>
     const pageShell = document.getElementById('pageShell');
+	
+	
+	// COde for Khaba gani image
+		const introOverlay = document.getElementById('introOverlay');
+
+		// blur the page + lock body scroll while intro is visible
+		pageShell.classList.add('blur-intro');
+		document.body.classList.add('body-no-scroll');
+
+		function hideIntro() {
+		  if (introOverlay.style.display === 'none') return;
+
+		  introOverlay.style.display = 'none';
+		  pageShell.classList.remove('blur-intro');
+		  document.body.classList.remove('body-no-scroll'); // re-enable scroll
+		}
+
+		// click on overlay hides intro
+		introOverlay.addEventListener('click', hideIntro);
+
+		// click anywhere on the page hides intro
+		document.addEventListener('click', hideIntro, true);
+
 
     // Burger menu toggle
     const burgerBtn = document.getElementById('burgerBtn');
@@ -1087,7 +1242,6 @@
     const prevCardBtn = document.getElementById('prevCard');
     const nextCardBtn = document.getElementById('nextCard');
 
-    // -1 means no active card yet
     let activeIndex = -1;
 
     function updateCarousel(scrollBehavior = 'smooth') {
@@ -1095,7 +1249,7 @@
         card.classList.toggle('active', idx === activeIndex);
       });
 
-      if (activeIndex < 0) return;  // nothing to center
+      if (activeIndex < 0) return;
 
       const activeCard = cards[activeIndex];
       const gridRect = cardGrid.getBoundingClientRect();
@@ -1123,51 +1277,46 @@
       updateCarousel();
     });
 
-   // Simple & bulletproof touch-swipe [web:29]
-let touchStartX = 0;
-let touchEndX = 0;
+    // Touch-swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
 
-cardGrid.addEventListener('touchstart', (e) => {
-  touchStartX = e.changedTouches[0].screenX;
-}, { passive: true });
+    cardGrid.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
 
-cardGrid.addEventListener('touchend', (e) => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipe();
-}, { passive: true });
+    cardGrid.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
 
-function handleSwipe() {
-  const swipeThreshold = 50; // pixels
-  const diff = touchStartX - touchEndX;
-  
-  if (Math.abs(diff) > swipeThreshold) {
-    if (diff > 0) {
-      // Swipe left -> Next card
-      if (activeIndex < 0) activeIndex = 0;
-      else activeIndex = (activeIndex + 1) % cards.length;
-    } else {
-      // Swipe right -> Previous card
-      if (activeIndex < 0) activeIndex = 0;
-      else activeIndex = (activeIndex - 1 + cards.length) % cards.length;
+    function handleSwipe() {
+      const swipeThreshold = 50;
+      const diff = touchStartX - touchEndX;
+      
+      if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+          if (activeIndex < 0) activeIndex = 0;
+          else activeIndex = (activeIndex + 1) % cards.length;
+        } else {
+          if (activeIndex < 0) activeIndex = 0;
+          else activeIndex = (activeIndex - 1 + cards.length) % cards.length;
+        }
+        updateCarousel('smooth');
+      }
     }
-    updateCarousel('smooth');
-  }
-}
-
-/*-- Smooth touch trans code till here --*/
 
     // Map calendar dates to card indexes
     const DATE_TO_CARD = {
-      '2025-12-27': 0, // Train to Rajasthan
-      '2025-12-28': 1, // Jaiselmer
-      '2025-12-29': 2, // Ratanda
-      '2025-12-30': 2, // Ratanda (same stay)
-      '2025-12-31': 3, // Ranakpur
-      '2026-01-01': 4, // Jodhpur final night
-      '2026-01-02': 5  // Return train
+      '2025-12-27': 0,
+      '2025-12-28': 1,
+      '2025-12-29': 2,
+      '2025-12-30': 2,
+      '2025-12-31': 3,
+      '2026-01-01': 4,
+      '2026-01-02': 5
     };
 
-    // Get today in YYYY-MM-DD format (local)
     function getTodayKey() {
       const d = new Date();
       const year = d.getFullYear();
@@ -1176,7 +1325,6 @@ function handleSwipe() {
       return `${year}-${month}-${day}`;
     }
 
-    // date -> card mapping for test modal as well
     function setActiveByDate(dateStr) {
       if (DATE_TO_CARD[dateStr] != null) {
         activeIndex = DATE_TO_CARD[dateStr];
@@ -1184,9 +1332,8 @@ function handleSwipe() {
       }
     }
 
-    // Test date save
     saveDateBtn.addEventListener('click', () => {
-      const value = testDateInput.value; // YYYY-MM-DD
+      const value = testDateInput.value;
       if (!value) {
         dateModal.style.display = 'none';
         return;
@@ -1223,21 +1370,19 @@ function handleSwipe() {
     });
 
     popupCloseBtn.addEventListener('click', closeCardPopup);
-
     cardPopupBackdrop.addEventListener('click', (e) => {
       if (e.target === cardPopupBackdrop) {
         closeCardPopup();
       }
     });
 
-    // Initial state – highlight only if today's date matches
+    // Initial state
     const todayKey = getTodayKey();
-    if (Object.prototype.hasOwnProperty.call(DATE_TO_CARD, todayKey)) {
+    if (DATE_TO_CARD[todayKey]) {
       activeIndex = DATE_TO_CARD[todayKey];
       updateCarousel('auto');
-    } else {
-      cards.forEach(card => card.classList.remove('active'));
     }
   </script>
 </body>
 </html>
+
