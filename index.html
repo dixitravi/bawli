@@ -1003,7 +1003,7 @@
 
   <!-- Sticky footer -->
   <footer class="footer">
-    © 2025 All rights reserved. Bawli Toli (Version - 2.2)
+    © 2025 All rights reserved. Bawli Toli (Version - 2.3)
   </footer>
 
   <script>
@@ -1181,48 +1181,63 @@
       cards.forEach(card => card.classList.remove('active'));
     }
 	
-	// Touch-swipe support for mobile/tablet
-let touchStartX = 0;
-let touchCurrentX = 0;
-let isSwiping = false;
+	// Smooth touch-drag + momentum for mobile/tablet
+let startX = 0;
+let currentX = 0;
+let isDragging = false;
+let startScrollLeft = 0;
+let velocity = 0;
+let raf = null;
 
 cardGrid.addEventListener('touchstart', (e) => {
   if (e.touches.length !== 1) return;
-  touchStartX = e.touches[0].clientX;
-  touchCurrentX = touchStartX;
-  isSwiping = true;
-}, { passive: true });
+  isDragging = true;
+  startX = e.touches[0].clientX;
+  currentX = startX;
+  startScrollLeft = cardGrid.scrollLeft;
+  velocity = 0;
+  if (raf) cancelAnimationFrame(raf);
+}, { passive: false });
 
 cardGrid.addEventListener('touchmove', (e) => {
-  if (!isSwiping || e.touches.length !== 1) return;
-  touchCurrentX = e.touches[0].clientX;
-}, { passive: true });
+  if (!isDragging || e.touches.length !== 1) return;
+  e.preventDefault();
+  
+  currentX = e.touches[0].clientX;
+  const walk = (currentX - startX) * 1.5; // sensitivity
+  cardGrid.scrollLeft = startScrollLeft - walk;
+  
+  // Calculate velocity for momentum
+  velocity = currentX - currentX * 0.95; // simple velocity tracking
+}, { passive: false });
 
 cardGrid.addEventListener('touchend', () => {
-  if (!isSwiping) return;
-  const deltaX = touchCurrentX - touchStartX;
-  const threshold = 40; // minimum px to count as swipe
-
-  if (deltaX > threshold) {
-    // swipe right → go to previous card
-    if (activeIndex < 0) {
-      activeIndex = 0;
-    } else {
-      activeIndex = (activeIndex - 1 + cards.length) % cards.length;
-    }
-    updateCarousel();
-  } else if (deltaX < -threshold) {
-    // swipe left → go to next card
-    if (activeIndex < 0) {
-      activeIndex = 0;
-    } else {
-      activeIndex = (activeIndex + 1) % cards.length;
-    }
-    updateCarousel();
-  }
-
-  isSwiping = false;
+  if (!isDragging) return;
+  isDragging = false;
+  
+  // Momentum scroll based on velocity
+  const momentumDistance = velocity * 10;
+  const targetScroll = cardGrid.scrollLeft + momentumDistance;
+  
+  cardGrid.scrollTo({
+    left: targetScroll,
+    behavior: 'smooth'
+  });
+  
+  // Snap to nearest card after momentum
+  setTimeout(() => snapToNearestCard(), 300);
 });
+
+// Snap to closest card center
+function snapToNearestCard() {
+  const scrollLeft = cardGrid.scrollLeft;
+  const cardWidth = 320 + 24; // card + gap
+  const targetIndex = Math.round(scrollLeft / cardWidth);
+  
+  activeIndex = Math.max(0, Math.min(targetIndex, cards.length - 1));
+  updateCarousel('auto');
+}
+
 
   </script>
 </body>
