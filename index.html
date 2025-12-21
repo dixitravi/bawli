@@ -21,11 +21,7 @@
       --muted: #9ca3af;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -58,7 +54,12 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      padding: 1.8rem 1.1rem 3.8rem; /* space for footer */
+      padding: 1.8rem 1.1rem 3.8rem;
+      transition: filter 0.25s ease;
+    }
+
+    .page-shell.blurred {
+      filter: blur(8px);
     }
 
     .content-shell {
@@ -68,12 +69,21 @@
       flex: 1 0 auto;
     }
 
-    /* Masthead with logo */
+    /* Top bar with burger */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      position: relative;
+      z-index: 15;
+    }
+
     .masthead {
       display: flex;
       align-items: center;
       gap: 1.1rem;
-      margin-bottom: 1.7rem;
+      margin-bottom: 0.9rem;
     }
 
     .logo-wrap {
@@ -91,7 +101,7 @@
 
     .logo-wrap img {
       width: 90%;
-      margin-top:15px;
+      margin-top: 15px;
       object-fit: contain;
     }
 
@@ -111,12 +121,16 @@
       margin-top: 0.4rem;
       font-size: 0.8rem;
       color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
     }
 
-    .trip-meta span {
+    .trip-meta-line {
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
+      flex-wrap: wrap;
     }
 
     .badge-pill {
@@ -131,7 +145,54 @@
       font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.09em;
-      margin-left: 0.5rem;
+    }
+
+    /* Burger menu using image */
+    .burger-btn {
+
+      width: 40px;
+      height: 40px;
+      border-radius: 0;
+      border: none;
+      background: transparent;
+	display:none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .burger-btn img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+
+    .menu-dropdown {
+      position: absolute;
+      right: 0;
+      top: 3.2rem;
+      background: rgba(15,23,42,0.98);
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,0.6);
+      min-width: 140px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+      padding: 0.4rem 0;
+      display: none;
+      z-index: 20;
+    }
+
+    .menu-dropdown a {
+      display: block;
+      padding: 0.5rem 0.9rem;
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      text-decoration: none;
+    }
+
+    .menu-dropdown a:hover {
+      background: rgba(31,41,55,0.95);
     }
 
     /* Section heading */
@@ -143,13 +204,16 @@
       font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.18em;
-      color: var(--accent-soft);
-      margin-bottom: 0.4rem;
+      color: #000000;
+      background: rgba(249,250,251,0.75);
+      display: inline-block;
+      padding: 0.15rem 0.7rem;
+      border-radius: 999px;
     }
 
     .section-title {
       font-size: clamp(1.6rem, 3vw, 2.1rem);
-      margin-bottom: 0.4rem;
+      margin: 0.4rem 0;
     }
 
     .section-sub {
@@ -158,35 +222,66 @@
       max-width: 620px;
     }
 
-    /* Grid for cards */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
+    /* Carousel with taller track */
+    .carousel-shell {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
       margin-top: 1rem;
+      min-height: 520px;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: hidden;
+      overflow-y: visible;
+      flex: 1 1 auto;
+      padding: 70px 80px;
+      scroll-behavior: smooth;
+    }
+
+    .carousel-track .trip-card:first-child {
+      margin-left: 40px;
+    }
+
+    .carousel-track .trip-card:last-child {
+      margin-right: 40px;
     }
 
     .trip-card {
       position: relative;
+      flex: 0 0 320px;
       border-radius: var(--card-radius);
       overflow: hidden;
       background:
         linear-gradient(140deg, rgba(15,23,42,0.96), rgba(15,23,42,0.8)),
         radial-gradient(circle at 0 0, rgba(249,115,22,0.18), transparent 60%);
       border: 1px solid var(--border);
-      box-shadow: 0 22px 45px rgba(0,0,0,0.8);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7);
       backdrop-filter: blur(18px);
-      transform: translateY(0) scale(1);
-      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+      transform: scale(0.8);
+      opacity: 0.35;
+      cursor: pointer;
+      transition:
+        transform 0.3s ease,
+        opacity 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease;
     }
 
-    .trip-card:hover {
-      transform: translateY(-6px) scale(1.01);
-      box-shadow: 0 30px 70px rgba(15,23,42,0.95);
-      border-color: rgba(56,189,248,0.7);
+    .trip-card.active {
+      transform: scale(1.05);
+      opacity: 1;
+      border-color: rgba(250, 204, 21, 0.95);
+      box-shadow:
+        0 0 0 1px rgba(250, 204, 21, 0.8),
+        0 0 25px rgba(250, 204, 21, 0.65),
+        0 0 50px rgba(249, 115, 22, 0.85);
       background:
-        linear-gradient(145deg, rgba(15,23,42,0.98), rgba(17,24,39,0.8)),
-        radial-gradient(circle at 0 0, rgba(56,189,248,0.22), transparent 65%);
+        radial-gradient(circle at top left, rgba(250, 204, 21, 0.25), transparent 55%),
+        linear-gradient(145deg, rgba(15,23,42,0.98), rgba(15,23,42,0.9));
     }
 
     .card-image {
@@ -196,6 +291,7 @@
       background-position: center;
     }
 
+    /* global dark overlay above any background */
     .card-image::after {
       content: "";
       position: absolute;
@@ -203,6 +299,7 @@
       background:
         linear-gradient(to top, rgba(15,23,42,0.9), transparent 55%),
         radial-gradient(circle at 0 0, rgba(249,115,22,0.3), transparent 60%);
+      z-index: 1;
     }
 
     .day-chip {
@@ -244,9 +341,7 @@
       border: 1px solid rgba(148,163,184,0.7);
     }
 
-    .card-body {
-      padding: 0.9rem 1.1rem 1.15rem;
-    }
+    .card-body { padding: 0.9rem 1.1rem 1.15rem; }
 
     .card-title {
       font-size: 0.98rem;
@@ -261,22 +356,11 @@
       letter-spacing: 0.03em;
     }
 
-    .dates {
-      font-size: 0.82rem;
-      color: #e5e7eb;
-      margin-bottom: 0.18rem;
-    }
+    .dates { font-size: 0.82rem; color: #e5e7eb; margin-bottom: 0.18rem; }
 
-    .nights {
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-bottom: 0.6rem;
-    }
+    .nights { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.6rem; }
 
-    .contact-label {
-      font-size: 0.82rem;
-      color: #e5e7eb;
-    }
+    .contact-label { font-size: 0.82rem; color: #e5e7eb; }
 
     .phone-row {
       display: flex;
@@ -307,9 +391,7 @@
       transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
     }
 
-    .call-icon-btn i {
-      font-size: 1.1rem;
-    }
+    .call-icon-btn i { font-size: 1.1rem; }
 
     .call-icon-btn:hover {
       filter: brightness(1.06);
@@ -320,6 +402,52 @@
     .call-icon-btn:active {
       transform: translateY(0);
       box-shadow: 0 0 0 1px rgba(22,163,74,0.9), 0 0 10px rgba(21,128,61,0.9);
+    }
+
+    /* small timetable tables inside cards */
+    .card-timetable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      color: #e5e7eb;
+    }
+
+    .card-timetable th,
+    .card-timetable td {
+      padding: 0.18rem 0.25rem;
+      text-align: left;
+      border-bottom: 1px dashed rgba(148,163,184,0.35);
+    }
+
+    .card-timetable th {
+      font-weight: 500;
+      color: #cbd5f5;
+    }
+
+    .card-timetable tr:last-child th,
+    .card-timetable tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Carousel arrows */
+    .carousel-arrow {
+      border: none;
+      background: rgba(15,23,42,0.95);
+      color: #e5e7eb;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+      flex-shrink: 0;
+    }
+
+    .carousel-arrow i {
+      font-size: 1.6rem;
     }
 
     /* Sticky footer */
@@ -340,20 +468,64 @@
       z-index: 10;
     }
 
+    /* Responsive (mobile overrides) */
     @media (max-width: 640px) {
-      .page-shell {
-        padding: 1.4rem 1rem 3.8rem;
+      .page-shell { padding: 1.4rem 1rem 3.8rem; }
+      .masthead { flex-direction: row; align-items: center; }
+      .masthead-text h1 { font-size: 1.6rem; }
+      .trip-meta { font-size: 0.78rem; }
+
+      .carousel-shell {
+        flex-direction: column;
+        align-items: stretch;
+        min-height: auto;
       }
-      .masthead {
-        flex-direction: row;
-        align-items: center;
+
+      .carousel-arrow {
+        display: none;
       }
-      .masthead-text h1 {
-        font-size: 1.6rem;
+
+      .carousel-track {
+        display: grid;
+        grid-template-columns: 1fr;
+        overflow: visible;
+        padding: 0;
+      }
+
+      .carousel-track .trip-card:first-child,
+      .carousel-track .trip-card:last-child {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .trip-card {
+        flex: 1 1 auto;
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      /* HIDE card images in list on mobile */
+      .trip-card .card-image {
+        display: none;
+      }
+    }
+
+    /* Show image inside popup even on mobile */
+    @media (max-width: 640px) {
+      .card-popup .trip-card .card-image {
+        display: block;
       }
     }
 
     /* Individual card background images */
+
+    /* FIRST train card – normal orientation */
+    .img-train-start {
+      background-image: url("https://plus.unsplash.com/premium_photo-1661937674312-89f00c7e44e7?q=80&w=2676&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+      background-size: cover;
+      background-position: center;
+    }
+
     .img-jaisalmer {
       background-image: url("https://images.unsplash.com/photo-1762254804915-967868db1ece?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0");
     }
@@ -363,181 +535,651 @@
     }
 
     .img-ranakpur {
-      	  background-image: url("bonfire.jpg");
+      background-image: url("bonfire.jpg");
     }
 
-.img-jodhpur-2 {
-  background-image: url("https://images.unsplash.com/photo-1569001852726-323fd51b26f3?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    .img-jodhpur-2 {
+      background-image: url("https://images.unsplash.com/photo-1569001852726-323fd51b26f3?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    }
+
+    /* LAST train card – flip background via ::before so text stays normal */
+    .img-train-end {
+      position: relative;
+      overflow: hidden;
+      background: none;
+    }
+
+    .img-train-end::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("https://plus.unsplash.com/premium_photo-1661937674312-89f00c7e44e7?q=80&w=2676&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+      background-size: cover;
+      background-position: center;
+      transform: scaleX(-1);
+      transform-origin: center;
+      z-index: 0;
+    }
+
+    /* Modal (Test date) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+    }
+
+    .modal {
+      background: #020617;
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,0.7);
+      padding: 1.3rem 1.4rem 1.1rem;
+      max-width: 320px;
+      width: 90%;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+    }
+
+    .modal h3 {
+      margin-bottom: 0.8rem;
+      font-size: 1.1rem;
+    }
+
+    .modal label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .modal input[type="date"] {
+      width: 100%;
+      padding: 0.45rem 0.55rem;
+      border-radius: 8px;
+      border: 1px solid rgba(148,163,184,0.9);
+      background: #020617;
+      color: #e5e7eb;
+      font-family: inherit;
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 0.35rem 0.85rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn-secondary {
+      background: #111827;
+      color: #e5e7eb;
+    }
+
+    .btn-primary {
+      background: #f97316;
+      color: #111827;
+    }
+
+    /* Big card popup */
+    .card-popup-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 40;
+    }
+
+/* mobile: make background lighter so page is more visible */
+@media (max-width: 640px) {
+  .card-popup-backdrop {
+    background: rgba(0,0,0,0.55);  /* ~55% opacity instead of 90% */
+  }
+}
+
+    .card-popup {
+      background: #020617;
+      border-radius: 22px;
+      border: 1px solid rgba(148,163,184,0.7);
+      max-width: 560px;
+      width: 94%;
+      max-height: 90vh;
+      overflow: hidden;
+      box-shadow: 0 26px 80px rgba(0,0,0,0.95);
+      position: relative;
+      padding: 0;
+    }
+
+    .card-popup-inner {
+      overflow-y: auto;
+      max-height: 90vh;
+      padding: 0;
+    }
+
+    .card-popup-inner .trip-card {
+      margin: 0;
+      width: 100%;
+      border-radius: 22px;
+      opacity: 1;
+      transform: scale(1);
+      box-shadow:
+        0 0 0 1px rgba(250, 204, 21, 0.8),
+        0 0 25px rgba(250, 204, 21, 0.65),
+        0 0 80px rgba(249, 115, 22, 0.85);
+      border-color: rgba(250, 204, 21, 0.95);
+    }
+
+    .card-popup-inner .card-body {
+      padding: 0.9rem 1.1rem 1.15rem;
+    }
+
+    .card-popup .card-image {
+      height: 320px;
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.8);
+      z-index: 2;
+    }
+
+    .popup-close i {
+      font-size: 1.2rem;
     }
   </style>
 </head>
 <body>
-  <!-- Full-page background -->
+  <!-- Background -->
   <div class="bg-page"></div>
   <div class="bg-overlay"></div>
 
-  <div class="page-shell">
+  <div class="page-shell" id="pageShell">
     <div class="content-shell">
-      <!-- Masthead -->
-      <header class="masthead">
-        <div class="logo-wrap">
-          <!-- Use your uploaded logo file name in the project -->
-          <img src="PRINT-LOGO.png" alt="Bawli Toli Logo" />
-        </div>
-        <div class="masthead-text">
-          <h1>Bawli Toli</h1>
-          <p>Rajasthan group trip – stay details, contacts and day-wise destinations at a glance.</p>
-          <div class="trip-meta">
-            <span>
-              28 Dec 2025 – 2 Jan 2026
-              <span class="badge-pill">
-                <i class="bx bx-map"></i>
-                Jaiselmer • Jodhpur • Ranakpur
-              </span>
-            </span>
+      <div class="top-bar">
+        <!-- Masthead -->
+        <header class="masthead">
+          <div class="logo-wrap">
+            <img src="PRINT-LOGO.png" alt="Bawli Toli Logo" />
           </div>
-        </div>
-      </header>
+          <div class="masthead-text">
+            <h1>Bawli Toli</h1>
+            <p>Rajasthan group trip – stay details, contacts and day-wise destinations at a glance.</p>
+            <div class="trip-meta">
+              <div class="trip-meta-line">
+                27 Dec 2025 – 2 Jan 2026
+              </div>
+              <div class="trip-meta-line">
+                <span class="badge-pill">
+                  <i class="bx bx-map"></i>
+                  Train • Jaiselmer • Jodhpur • Ranakpur
+                </span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Burger with PNG icon -->
+        <button class="burger-btn" id="burgerBtn" aria-label="Menu">
+          <img src="burger-bar.png" alt="Menu" />
+        </button>
+        <nav class="menu-dropdown" id="menuDropdown">
+          <a href="#images">Images</a>
+          <a href="javascript:void(0)" id="testLink">Test</a>
+        </nav>
+      </div>
 
       <!-- Section heading -->
       <section class="section-head">
         <div class="section-eyebrow">Stay timeline</div>
-        <h2 class="section-title">Day-wise hotel plan</h2>
+        <h2 class="section-title">Day-wise travel & stay</h2>
         <p class="section-sub">
-          Each card shows check-in / check-out, total nights and a tap-to-call button for the contact person.
+          Cards cover train travel, hotel check-in/check-out, total nights and contact info where available.
         </p>
       </section>
 
-      <!-- Itinerary cards -->
-      <section class="grid">
-        <!-- Card 1: Jaisalmer -->
-        <article class="trip-card">
-          <div class="card-image img-jaisalmer">
-            <div class="day-chip">
-              <span class="day-chip-dot"></span>
-              Day 1
-            </div>
-            <div class="city-pill">Jaiselmer • Desert Camp</div>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Carvaan Resort Luxury Desert Camp</h3>
-            <div class="hotel-city">Jaiselmer (Sam)</div>
-            <div class="dates">Check in: 28-Dec-25</div>
-            <div class="dates">Check out: 29-Dec-25</div>
-            <div class="nights">Stay: 1 night</div>
+      <!-- Carousel -->
+      <section class="carousel-shell">
+        <button class="carousel-arrow" id="prevCard" aria-label="Previous stop">
+          <i class="bx bx-chevron-left"></i>
+        </button>
 
-            <div class="contact-label">Contact person: Kapil</div>
-            <div class="phone-row">
-              <div class="phone-text">+91 7877954526</div>
-              <a href="tel:+917877954526" class="call-icon-btn" aria-label="Call Kapil">
-                <i class="bx bx-phone-call"></i>
-              </a>
+        <div class="carousel-track" id="cardGrid">
+          <!-- Card 0: Day 1 – Train to Rajasthan -->
+          <article class="trip-card" data-day="1">
+            <div class="card-image img-train-start">
+              <div class="day-chip">
+                <span class="day-chip-dot"></span>
+                Day 1
+              </div>
+              <div class="city-pill">On the way • By Train</div>
             </div>
-          </div>
-        </article>
+            <div class="card-body">
+              <h3 class="card-title">SSB JSM SF EXP</h3>
+              <div class="hotel-city">Train no: 12249</div>
+              <div class="dates">Travel date: 27-Dec-25</div>
+              <div class="nights">Overnight train from Delhi (NCR) to Jaisalmer</div>
+              <table class="card-timetable">
+                <thead>
+                  <tr>
+                    <th>Station</th>
+                    <th>Arrival</th>
+                    <th>Departure</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>SHAKURBASTI</td>
+                    <td>Source</td>
+                    <td>17:10</td>
+                  </tr>
+                  <tr>
+                    <td>DELHI CANTT</td>
+                    <td>17:54</td>
+                    <td>17:56</td>
+                  </tr>
+                  <tr>
+                    <td>GURGAON</td>
+                    <td>18:11</td>
+                    <td>18:13</td>
+                  </tr>
+                  <tr>
+                    <td>JAISALMER</td>
+                    <td>09:00</td>
+                    <td>–</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
 
-        <!-- Card 2: Ratanda, Jodhpur -->
-        <article class="trip-card">
-          <div class="card-image img-jodhpur-1">
-            <div class="day-chip">
-              <span class="day-chip-dot"></span>
-              Day 2–3
+          <!-- Card 1: Jaisalmer -->
+          <article class="trip-card" data-day="2">
+            <div class="card-image img-jaisalmer">
+              <div class="day-chip">
+                <span class="day-chip-dot"></span>
+                Day 2
+              </div>
+              <div class="city-pill">Jaiselmer • Desert Camp</div>
             </div>
-            <div class="city-pill">Ratanda • Jodhpur</div>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Marwar Hotel and Garden</h3>
-            <div class="hotel-city">Ratanda (Jodhpur)</div>
-            <div class="dates">Check in: 29-Dec-25</div>
-            <div class="dates">Check out: 31-Dec-25</div>
-            <div class="nights">Stay: 2 nights</div>
+            <div class="card-body">
+              <h3 class="card-title">Carvaan Resort Luxury Desert Camp</h3>
+              <div class="hotel-city">Jaiselmer (Sam)</div>
+              <div class="dates">Check in: 28-Dec-25</div>
+              <div class="dates">Check out: 29-Dec-25</div>
+              <div class="nights">Stay: 1 night</div>
+              <div class="contact-label">Contact person: Kapil</div>
+              <div class="phone-row">
+                <div class="phone-text">+91 7877954526</div>
+                <a href="tel:+917877954526" class="call-icon-btn" aria-label="Call Kapil">
+                  <i class="bx bx-phone-call"></i>
+                </a>
+              </div>
+            </div>
+          </article>
 
-            <div class="contact-label">Contact person: Sunil</div>
-            <div class="phone-row">
-              <div class="phone-text">+91 9027282035</div>
-              <a href="tel:+919027282035" class="call-icon-btn" aria-label="Call Sunil Ratanda">
-                <i class="bx bx-phone-call"></i>
-              </a>
+          <!-- Card 2: Ratanda, Jodhpur -->
+          <article class="trip-card" data-day="3">
+            <div class="card-image img-jodhpur-1">
+              <div class="day-chip">
+                <span class="day-chip-dot"></span>
+                Day 3–4
+              </div>
+              <div class="city-pill">Ratanda • Jodhpur</div>
             </div>
-          </div>
-        </article>
+            <div class="card-body">
+              <h3 class="card-title">Marwar Hotel and Garden</h3>
+              <div class="hotel-city">Ratanda (Jodhpur)</div>
+              <div class="dates">Check in: 29-Dec-25</div>
+              <div class="dates">Check out: 31-Dec-25</div>
+              <div class="nights">Stay: 2 nights</div>
+              <div class="contact-label">Contact person: Sunil</div>
+              <div class="phone-row">
+                <div class="phone-text">+91 9027282035</div>
+                <a href="tel:+919027282035" class="call-icon-btn" aria-label="Call Sunil Ratanda">
+                  <i class="bx bx-phone-call"></i>
+                </a>
+              </div>
+            </div>
+          </article>
 
-        <!-- Card 3: Ranakpur -->
-        <article class="trip-card">
-          <div class="card-image img-ranakpur">
-            <div class="day-chip">
-              <span class="day-chip-dot"></span>
-              Day 4
+          <!-- Card 3: Ranakpur -->
+          <article class="trip-card" data-day="5">
+            <div class="card-image img-ranakpur">
+              <div class="day-chip">
+                <span class="day-chip-dot"></span>
+                Day 5
+              </div>
+              <div class="city-pill">Ranakpur • Resort</div>
             </div>
-            <div class="city-pill">Ranakpur • Resort</div>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Ranakpur Safari Resort</h3>
-            <div class="hotel-city">Ranakpur</div>
-            <div class="dates">Check in: 31-Dec-25</div>
-            <div class="dates">Check out: 1-Jan-26</div>
-            <div class="nights">Stay: 1 night</div>
+            <div class="card-body">
+              <h3 class="card-title">Ranakpur Safari Resort</h3>
+              <div class="hotel-city">Ranakpur</div>
+              <div class="dates">Check in: 31-Dec-25</div>
+              <div class="dates">Check out: 1-Jan-26</div>
+              <div class="nights">Stay: 1 night</div>
+              <div class="contact-label">Contact person: To be updated</div>
+              <div class="phone-row">
+                <div class="phone-text">Phone: –</div>
+              </div>
+            </div>
+          </article>
 
-            <div class="contact-label">Contact person: To be updated</div>
-            <div class="phone-row">
-              <div class="phone-text">Phone: –</div>
+          <!-- Card 4: Jodhpur final night -->
+          <article class="trip-card" data-day="6">
+            <div class="card-image img-jodhpur-2">
+              <div class="day-chip">
+                <span class="day-chip-dot"></span>
+                Day 6
+              </div>
+              <div class="city-pill">Jodhpur • City Stay</div>
             </div>
-          </div>
-        </article>
+            <div class="card-body">
+              <h3 class="card-title">Marwar Hotel and Garden</h3>
+              <div class="hotel-city">Jodhpur</div>
+              <div class="dates">Check in: 1-Jan-26</div>
+              <div class="dates">Check out: 2-Jan-26</div>
+              <div class="nights">Stay: 1 night</div>
+              <div class="contact-label">Contact person: Sunil</div>
+              <div class="phone-row">
+                <div class="phone-text">+91 9027282035</div>
+                <a href="tel:+919027282035" class="call-icon-btn" aria-label="Call Sunil Jodhpur">
+                  <i class="bx bx-phone-call"></i>
+                </a>
+              </div>
+            </div>
+          </article>
 
-        <!-- Card 4: Jodhpur final night -->
-        <article class="trip-card">
-          <div class="card-image img-jodhpur-2">
-            <div class="day-chip">
-              <span class="day-chip-dot"></span>
-              Day 5
+          <!-- Card 5: Return train -->
+          <article class="trip-card" data-day="7">
+            <div class="card-image img-train-end">
+              <div class="day-chip">
+                <span class="day-chip-dot"></span>
+                Day 7
+              </div>
+              <div class="city-pill">Back home • By Train</div>
             </div>
-            <div class="city-pill">Jodhpur • City Stay</div>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Marwar Hotel and Garden</h3>
-            <div class="hotel-city">Jodhpur</div>
-            <div class="dates">Check in: 1-Jan-26</div>
-            <div class="dates">Check out: 2-Jan-26</div>
-            <div class="nights">Stay: 1 night</div>
+            <div class="card-body">
+              <h3 class="card-title">JU DEE SF EXP</h3>
+              <div class="hotel-city">Train no: 22481</div>
+              <div class="dates">Travel date: 2-Jan-26</div>
+              <div class="nights">Overnight train from Jodhpur to Delhi (NCR)</div>
+              <table class="card-timetable">
+                <thead>
+                  <tr>
+                    <th>Station</th>
+                    <th>Arrival</th>
+                    <th>Departure</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>JODHPUR JN</td>
+                    <td>Source</td>
+                    <td>18:30</td>
+                  </tr>
+                  <tr>
+                    <td>GURGAON</td>
+                    <td>04:27</td>
+                    <td>04:29</td>
+                  </tr>
+                  <tr>
+                    <td>DELHI CANTT</td>
+                    <td>04:47</td>
+                    <td>04:49</td>
+                  </tr>
+                  <tr>
+                    <td>DELHI S ROHILLA</td>
+                    <td>05:20</td>
+                    <td>–</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
 
-            <div class="contact-label">Contact person: Sunil</div>
-            <div class="phone-row">
-              <div class="phone-text">+91 9027282035</div>
-              <a href="tel:+919027282035" class="call-icon-btn" aria-label="Call Sunil Jodhpur">
-                <i class="bx bx-phone-call"></i>
-              </a>
-            </div>
-          </div>
-        </article>
+        <button class="carousel-arrow" id="nextCard" aria-label="Next stop">
+          <i class="bx bx-chevron-right"></i>
+        </button>
       </section>
     </div>
   </div>
-<audio id="bg-music"
-       src="https://pagalall.com/wp-content/uploads/Chaudhary%20-%20Amit%20Trivedi%20Ft.%20Mame%20Khan%20(pagalall.com).mp3"
-       loop>
-  Your browser does not support the audio element.
-</audio>
 
-<script>
-  // Start music after first user interaction (click/tap)
-  const audio = document.getElementById('bg-music');
+  <!-- Background music -->
+  <audio id="bg-music"
+         src="https://pagalall.com/wp-content/uploads/Chaudhary%20-%20Amit%20Trivedi%20Ft.%20Mame%20Khan%20(pagalall.com).mp3"
+         loop>
+    Your browser does not support the audio element.
+  </audio>
 
-  function enableMusicOnce() {
-    audio.play().catch(() => {
-      // silently ignore if browser still blocks
-    });
-    document.removeEventListener('click', enableMusicOnce);
-    document.removeEventListener('touchstart', enableMusicOnce);
-  }
+  <!-- Modal for Test link -->
+  <div class="modal-backdrop" id="dateModal">
+    <div class="modal">
+      <h3>Set trip date (test)</h3>
+      <label for="testDate">Select date</label>
+      <input type="date" id="testDate" />
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="closeModalBtn">Cancel</button>
+        <button class="btn btn-primary" id="saveDateBtn">Save</button>
+      </div>
+    </div>
+  </div>
 
-  document.addEventListener('click', enableMusicOnce);
-  document.addEventListener('touchstart', enableMusicOnce);
-</script>
+  <!-- Big card popup -->
+  <div class="card-popup-backdrop" id="cardPopupBackdrop">
+    <div class="card-popup" id="cardPopup">
+      <button class="popup-close" id="popupCloseBtn" aria-label="Close">
+        <i class="bx bx-x"></i>
+      </button>
+      <div class="card-popup-inner" id="cardPopupInner">
+        <!-- Cloned card will be inserted here -->
+      </div>
+    </div>
+  </div>
 
   <!-- Sticky footer -->
   <footer class="footer">
     © 2025 All rights reserved. Bawli Toli
   </footer>
+
+  <script>
+    const pageShell = document.getElementById('pageShell');
+
+    // Burger menu toggle
+    const burgerBtn = document.getElementById('burgerBtn');
+    const menuDropdown = document.getElementById('menuDropdown');
+
+    burgerBtn.addEventListener('click', () => {
+      const isOpen = menuDropdown.style.display === 'block';
+      menuDropdown.style.display = isOpen ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!burgerBtn.contains(e.target) && !menuDropdown.contains(e.target)) {
+        menuDropdown.style.display = 'none';
+      }
+    });
+
+    // Background music after first interaction [web:374]
+    const audioEl = document.getElementById('bg-music');
+    function enableMusicOnce() {
+      audioEl.play().catch(() => {});
+      document.removeEventListener('click', enableMusicOnce);
+      document.removeEventListener('touchstart', enableMusicOnce);
+    }
+    document.addEventListener('click', enableMusicOnce);
+    document.addEventListener('touchstart', enableMusicOnce);
+
+    // Modal for Test link
+    const testLink = document.getElementById('testLink');
+    const dateModal = document.getElementById('dateModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const saveDateBtn = document.getElementById('saveDateBtn');
+    const testDateInput = document.getElementById('testDate');
+
+    testLink.addEventListener('click', () => {
+      dateModal.style.display = 'flex';
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      dateModal.style.display = 'none';
+    });
+
+    dateModal.addEventListener('click', (e) => {
+      if (e.target === dateModal) {
+        dateModal.style.display = 'none';
+      }
+    });
+
+    // Carousel logic
+    const cardGrid = document.getElementById('cardGrid');
+    const cards = Array.from(cardGrid.querySelectorAll('.trip-card'));
+    const prevCardBtn = document.getElementById('prevCard');
+    const nextCardBtn = document.getElementById('nextCard');
+
+    // -1 means no active card yet
+    let activeIndex = -1;
+
+    function updateCarousel(scrollBehavior = 'smooth') {
+      cards.forEach((card, idx) => {
+        card.classList.toggle('active', idx === activeIndex);
+      });
+
+      if (activeIndex < 0) return;  // nothing to center
+
+      const activeCard = cards[activeIndex];
+      const gridRect = cardGrid.getBoundingClientRect();
+      const cardRect = activeCard.getBoundingClientRect();
+      const offset = cardRect.left - (gridRect.left + (gridRect.width - cardRect.width) / 2);
+
+      cardGrid.scrollBy({ left: offset, behavior: scrollBehavior });
+    }
+
+    prevCardBtn.addEventListener('click', () => {
+      if (activeIndex < 0) {
+        activeIndex = 0;
+      } else {
+        activeIndex = (activeIndex - 1 + cards.length) % cards.length;
+      }
+      updateCarousel();
+    });
+
+    nextCardBtn.addEventListener('click', () => {
+      if (activeIndex < 0) {
+        activeIndex = 0;
+      } else {
+        activeIndex = (activeIndex + 1) % cards.length;
+      }
+      updateCarousel();
+    });
+
+    // Map calendar dates to card indexes
+    const DATE_TO_CARD = {
+      '2025-12-27': 0, // Train to Rajasthan
+      '2025-12-28': 1, // Jaiselmer
+      '2025-12-29': 2, // Ratanda
+      '2025-12-30': 2, // Ratanda (same stay)
+      '2025-12-31': 3, // Ranakpur
+      '2026-01-01': 4, // Jodhpur final night
+      '2026-01-02': 5  // Return train
+    };
+
+    // Get today in YYYY-MM-DD format (local) [web:373]
+    function getTodayKey() {
+      const d = new Date();
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    // date -> card mapping for test modal as well
+    function setActiveByDate(dateStr) {
+      if (DATE_TO_CARD[dateStr] != null) {
+        activeIndex = DATE_TO_CARD[dateStr];
+        updateCarousel();
+      }
+    }
+
+    // Test date save
+    saveDateBtn.addEventListener('click', () => {
+      const value = testDateInput.value; // YYYY-MM-DD
+      if (!value) {
+        dateModal.style.display = 'none';
+        return;
+      }
+      setActiveByDate(value);
+      dateModal.style.display = 'none';
+    });
+
+    // Big card popup on click
+    const cardPopupBackdrop = document.getElementById('cardPopupBackdrop');
+    const cardPopupInner = document.getElementById('cardPopupInner');
+    const popupCloseBtn = document.getElementById('popupCloseBtn');
+
+    function openCardPopup(card) {
+      cardPopupInner.innerHTML = '';
+      const clone = card.cloneNode(true);
+      clone.classList.remove('active');
+      cardPopupInner.appendChild(clone);
+      pageShell.classList.add('blurred');
+      cardPopupBackdrop.style.display = 'flex';
+    }
+
+    function closeCardPopup() {
+      cardPopupBackdrop.style.display = 'none';
+      pageShell.classList.remove('blurred');
+    }
+
+    cards.forEach((card, idx) => {
+      card.addEventListener('click', () => {
+        activeIndex = idx;
+        updateCarousel();
+        openCardPopup(card);
+      });
+    });
+
+    popupCloseBtn.addEventListener('click', closeCardPopup);
+
+    cardPopupBackdrop.addEventListener('click', (e) => {
+      if (e.target === cardPopupBackdrop) {
+        closeCardPopup();
+      }
+    });
+
+    // Initial state – highlight only if today's date matches
+    const todayKey = getTodayKey();
+    if (Object.prototype.hasOwnProperty.call(DATE_TO_CARD, todayKey)) {
+      activeIndex = DATE_TO_CARD[todayKey];
+      updateCarousel('auto');
+    } else {
+      // ensure no card is active on non-trip dates
+      cards.forEach(card => card.classList.remove('active'));
+    }
+  </script>
 </body>
 </html>
