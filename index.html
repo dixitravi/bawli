@@ -1029,7 +1029,7 @@
 	  <div class="footer-left">
 		© 2025 All rights reserved. Bawli Toli
 	  </div>
-	  <div class="footer-right" data-version="2.7">Version - 2.7</div>
+	  <div class="footer-right" data-version="2.8">Version - 2.8</div>
 	</footer>
 
   <script>
@@ -1123,71 +1123,37 @@
       updateCarousel();
     });
 
-    // Ultra-smooth touch-drag + momentum (iOS/Android native feel) [web:11][web:29]
-let startX = 0;
-let isDragging = false;
-let startScrollLeft = 0;
-let velocity = 0;
-let raf = null;
-let prevTime = 0;
-let dragOffset = 0;
+   // Simple & bulletproof touch-swipe [web:29]
+let touchStartX = 0;
+let touchEndX = 0;
 
 cardGrid.addEventListener('touchstart', (e) => {
-  if (e.touches.length !== 1) return;
-  cancelAnimationFrame(raf);
-  isDragging = true;
-  startX = e.touches[0].clientX;
-  startScrollLeft = cardGrid.scrollLeft;
-  velocity = 0;
-  dragOffset = 0;
-  prevTime = performance.now();
+  touchStartX = e.changedTouches[0].screenX;
 }, { passive: true });
 
-cardGrid.addEventListener('touchmove', (e) => {
-  if (!isDragging || e.touches.length !== 1) return;
-  e.preventDefault();
-  
-  const currentX = e.touches[0].clientX;
-  const deltaX = currentX - startX;
-  const now = performance.now();
-  const deltaTime = now - prevTime;
-  
-  // Real-time scroll tracking
-  cardGrid.scrollLeft = startScrollLeft - deltaX * 1.2;
-  
-  // Velocity calculation (px/ms)
-  velocity = (cardGrid.scrollLeft - (startScrollLeft - dragOffset)) / deltaTime * 16;
-  dragOffset = deltaX * 1.2;
-  prevTime = now;
-}, { passive: false });
+cardGrid.addEventListener('touchend', (e) => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+}, { passive: true });
 
-cardGrid.addEventListener('touchend', () => {
-  if (!isDragging) return;
-  isDragging = false;
+function handleSwipe() {
+  const swipeThreshold = 50; // pixels
+  const diff = touchStartX - touchEndX;
   
-  // Physics-based momentum with easing
-  function animateMomentum(currentTime) {
-    if (Math.abs(velocity) < 0.2) {
-      snapToNearest();
-      return;
+  if (Math.abs(diff) > swipeThreshold) {
+    if (diff > 0) {
+      // Swipe left -> Next card
+      if (activeIndex < 0) activeIndex = 0;
+      else activeIndex = (activeIndex + 1) % cards.length;
+    } else {
+      // Swipe right -> Previous card
+      if (activeIndex < 0) activeIndex = 0;
+      else activeIndex = (activeIndex - 1 + cards.length) % cards.length;
     }
-    
-    cardGrid.scrollLeft += velocity;
-    velocity *= 0.94; // Friction
-    
-    raf = requestAnimationFrame(animateMomentum);
-  }
-  
-  function snapToNearest() {
-    const cardWidth = 344; // 320px + 24px gap
-    const scrollLeft = cardGrid.scrollLeft;
-    const targetIndex = Math.round(scrollLeft / cardWidth);
-    activeIndex = Math.max(0, Math.min(targetIndex, cards.length - 1));
     updateCarousel('smooth');
   }
-  
-  raf = requestAnimationFrame(animateMomentum);
-});
+}
+
 /*-- Smooth touch trans code till here --*/
 
     // Map calendar dates to card indexes
