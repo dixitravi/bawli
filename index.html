@@ -1003,7 +1003,7 @@
 
   <!-- Sticky footer -->
   <footer class="footer">
-    © 2025 All rights reserved. Bawli Toli
+    © 2025 All rights reserved. Bawli Toli (Version - 2.2)
   </footer>
 
   <script>
@@ -1180,6 +1180,50 @@
       // ensure no card is active on non-trip dates
       cards.forEach(card => card.classList.remove('active'));
     }
+	
+	// Touch-swipe support for mobile/tablet
+let touchStartX = 0;
+let touchCurrentX = 0;
+let isSwiping = false;
+
+cardGrid.addEventListener('touchstart', (e) => {
+  if (e.touches.length !== 1) return;
+  touchStartX = e.touches[0].clientX;
+  touchCurrentX = touchStartX;
+  isSwiping = true;
+}, { passive: true });
+
+cardGrid.addEventListener('touchmove', (e) => {
+  if (!isSwiping || e.touches.length !== 1) return;
+  touchCurrentX = e.touches[0].clientX;
+}, { passive: true });
+
+cardGrid.addEventListener('touchend', () => {
+  if (!isSwiping) return;
+  const deltaX = touchCurrentX - touchStartX;
+  const threshold = 40; // minimum px to count as swipe
+
+  if (deltaX > threshold) {
+    // swipe right → go to previous card
+    if (activeIndex < 0) {
+      activeIndex = 0;
+    } else {
+      activeIndex = (activeIndex - 1 + cards.length) % cards.length;
+    }
+    updateCarousel();
+  } else if (deltaX < -threshold) {
+    // swipe left → go to next card
+    if (activeIndex < 0) {
+      activeIndex = 0;
+    } else {
+      activeIndex = (activeIndex + 1) % cards.length;
+    }
+    updateCarousel();
+  }
+
+  isSwiping = false;
+});
+
   </script>
 </body>
 </html>
