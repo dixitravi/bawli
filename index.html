@@ -221,6 +221,48 @@
       max-width: 620px;
     }
 
+    /* Section tabs */
+    .section-tabs {
+      display: flex;
+      gap: 0.8rem;
+      margin: 0.6rem 0 0.4rem;
+    }
+
+/* Section tabs - inline with eyebrow */
+.tab-item {
+    font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #000000;
+      background: rgba(249,250,251,0.75);
+      display: inline-block;
+      padding: 0.15rem 0.7rem;
+      border-radius: 999px;
+	  margin-left:16px;
+}
+
+
+
+    .tab-item.active {
+      background: rgba(249,115,22,0.2);
+      color: #f97316;
+      box-shadow: 0 0 0 1px rgba(249,115,22,0.4);
+    }
+
+.tab-item:hover {
+  background: rgba(249,115,22,0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 1px rgba(249,115,22,0.6), 0 2px 8px rgba(249,115,22,0.3);
+}
+
+
+   @keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-1px); }
+  60% { transform: translateY(-0.5px); }
+}
+
+
     /* Carousel with taller track */
     .carousel-shell {
       display: flex;
@@ -358,7 +400,6 @@
     }
 
     .dates { font-size: 0.82rem; color: #e5e7eb; margin-bottom: 0.18rem; }
-
     .nights { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.6rem; }
 
     .contact-label { font-size: 0.82rem; color: #e5e7eb; }
@@ -557,35 +598,6 @@
                           url("https://plus.unsplash.com/premium_photo-1661937674312-89f00c7e44e7?q=80&w=2676&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
       }
       
-	  
-	  /* Fix: Last train card flipped image on mobile */
-@media (max-width: 640px) {
-  .trip-card[data-day="7"] {
-    position: relative;
-  }
-  
-  .trip-card[data-day="7"]::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: 
-      linear-gradient(140deg, rgba(15,23,42,0.96), rgba(15,23,42,0.8)),
-      url("https://plus.unsplash.com/premium_photo-1661937674312-89f00c7e44e7?q=80&w=2676&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
-    background-size: cover;
-    background-position: center;
-    transform: scaleX(-1);
-    filter: blur(3px) brightness(0.6);
-    opacity: 0.4;
-    z-index: 0;
-  }
-  
-  .trip-card[data-day="7"].active::before {
-    filter: blur(1px) brightness(0.85);
-    opacity: 0.25;
-  }
-}
-
-
       /* Mobile blurred effect */
       .trip-card::before {
         content: '';
@@ -735,6 +747,78 @@
       color: #111827;
     }
 
+    /* Itinerary Modal Styles */
+    .itinerary-modal {
+      max-width: 600px;
+      max-height: 85vh;
+      width: 95%;
+    }
+
+.modal-header {
+  position: relative;
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  padding-right: 2.5rem; /* Space for close button */
+  border-bottom: 1px solid rgba(148,163,184,0.3);
+}
+
+.modal-header h3 {
+  margin: 0;
+}
+
+
+    .itinerary-content {
+      max-height: 65vh;
+      overflow-y: auto;
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .itinerary-day {
+      margin-bottom: 1.8rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid rgba(148,163,184,0.2);
+	  border:0px solid red;
+	  margin-right:10px;
+    }
+
+    .itinerary-day:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .itinerary-date {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #facc15;
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.03em;
+    }
+
+    .itinerary-item {
+      margin-bottom: 0.6rem;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .itinerary-item::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #f97316;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .itinerary-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .itinerary-optional {
+      color: #a78bfa;
+      font-style: italic;
+    }
+
     /* Big card popup */
     .card-popup-backdrop {
       position: fixed;
@@ -813,50 +897,102 @@
     .popup-close i {
       font-size: 1.2rem;
     }
+
+    /* Page blurred when intro is visible */
+    .page-shell.blur-intro {
+      filter: blur(10px);
+      pointer-events: none;
+    }
+
+    /* Fullscreen intro overlay */
+    .intro-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      background: rgba(15,23,42,0.55); /* soft dark veil */
+    }
+
+    /* Circular image with dotted yellow border */
+    .intro-photo-wrap {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      padding: 6px; /* space for dotted border */
+      border: 5px dotted #facc15; /* yellow */
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .intro-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Lock scroll when intro is open */
+    .body-no-scroll {
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    /* Mobile adjustments for itinerary */
+    @media (max-width: 640px) {
+      .itinerary-modal {
+        width: 98%;
+        margin: 1rem;
+      }
+      
+      .itinerary-content {
+        font-size: 0.85rem;
+      }
+    }
 	
-	/* Page blurred when intro is visible */
-	.page-shell.blur-intro {
-	  filter: blur(10px);
-	  pointer-events: none;
-	}
-
-	/* Fullscreen intro overlay */
-	.intro-overlay {
-	  position: fixed;
-	  inset: 0;
-	  display: flex;
-	  align-items: center;
-	  justify-content: center;
-	  z-index: 50;
-	  background: rgba(15,23,42,0.55); /* soft dark veil */
-	}
-
-	/* Circular image with dotted yellow border */
-	.intro-photo-wrap {
-	  width: 220px;
-	  height: 220px;
-	  border-radius: 50%;
-	  padding: 6px; /* space for dotted border */
-	  border: 5px dotted #facc15; /* yellow */
-	  background: #ffffff;
-	  display: flex;
-	  align-items: center;
-	  justify-content: center;
-	  overflow: hidden;
-	}
-
-	.intro-photo-wrap img {
-	  width: 100%;
-	  height: 100%;
-	  object-fit: cover;
-	}
-	
-	/* Lock scroll when intro is open */
-.body-no-scroll {
-  overflow: hidden;
-  height: 100vh;
+	/* Itinerary modal specific close button */
+.modal-header {
+  position: relative;
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  padding-right: 2.5rem; /* Space for close button */
+  border-bottom: 1px solid rgba(148,163,184,0.3);
 }
 
+.modal-header h3 {
+  margin: 0;
+}
+
+.itinerary-close {
+  position: absolute;
+  top: -5px;
+  right: -3px;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(15,23,42,0.9);
+  color: #e5e7eb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.8);
+  z-index: 2;
+  transition: all 0.2s ease;
+}
+
+.itinerary-close:hover {
+  background: rgba(249,115,22,0.9);
+  transform: scale(1.05);
+}
+
+.itinerary-close i {
+  font-size: 1.1rem;
+}
 
   </style>
 </head>
@@ -865,12 +1001,12 @@
   <div class="bg-page"></div>
   <div class="bg-overlay"></div>
 
-	<!-- Intro overlay -->
-	<div class="intro-overlay" id="introOverlay">
-	  <div class="intro-photo-wrap">
-		<img src="kg.png" alt="Welcome" />
-	  </div>
-	</div>
+  <!-- Intro overlay -->
+  <div class="intro-overlay" id="introOverlay">
+    <div class="intro-photo-wrap">
+      <img src="kg.png" alt="Welcome" />
+    </div>
+  </div>
 
   <div class="page-shell" id="pageShell">
     <div class="content-shell">
@@ -907,14 +1043,17 @@
         </nav>
       </div>
 
-      <!-- Section heading -->
-      <section class="section-head">
-        <div class="section-eyebrow">Stay timeline</div>
-        <h2 class="section-title">Day-wise travel & stay</h2>
-        <p class="section-sub">
-          Cards cover train travel, hotel check-in/check-out, total nights and contact info where available.
-        </p>
-      </section>
+<!-- Section heading with Itinerary pill -->
+<section class="section-head">
+  <div class="section-eyebrow">
+    Stay timeline 
+  </div>
+  <div class="tab-item itinerary-trigger" id="itineraryTrigger">Itinerary</Div>
+  <h2 class="section-title">Day-wise travel & stay</h2>
+  <p class="section-sub">
+    Cards cover train travel, hotel check-in/check-out, total nights and contact info where available.
+  </p>
+</section>
 
       <!-- Carousel -->
       <section class="carousel-shell">
@@ -951,7 +1090,7 @@
                     <td>Source</td>
                     <td>17:10</td>
                   </tr>
-                  <tr>
+				                    <tr>
                     <td>DELHI CANTT</td>
                     <td>17:54</td>
                     <td>17:56</td>
@@ -1144,6 +1283,21 @@
     </div>
   </div>
 
+ <!-- Itinerary Modal -->
+<div class="modal-backdrop" id="itineraryModal">
+  <div class="modal itinerary-modal">
+    <div class="modal-header">
+      <h3>Complete Itinerary</h3>
+      <button class="itinerary-close" id="itineraryCloseBtn" aria-label="Close">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    <div class="itinerary-content" id="itineraryContent">
+      <!-- Content populated by JS -->
+    </div>
+  </div>
+</div>
+
   <!-- Big card popup -->
   <div class="card-popup-backdrop" id="cardPopupBackdrop">
     <div class="card-popup" id="cardPopup">
@@ -1166,29 +1320,27 @@
 
   <script>
     const pageShell = document.getElementById('pageShell');
-	
-	
-	// COde for Khaba gani image
-		const introOverlay = document.getElementById('introOverlay');
+    
+    // Code for Khaba gani image
+    const introOverlay = document.getElementById('introOverlay');
 
-		// blur the page + lock body scroll while intro is visible
-		pageShell.classList.add('blur-intro');
-		document.body.classList.add('body-no-scroll');
+    // blur the page + lock body scroll while intro is visible
+    pageShell.classList.add('blur-intro');
+    document.body.classList.add('body-no-scroll');
 
-		function hideIntro() {
-		  if (introOverlay.style.display === 'none') return;
+    function hideIntro() {
+      if (introOverlay.style.display === 'none') return;
 
-		  introOverlay.style.display = 'none';
-		  pageShell.classList.remove('blur-intro');
-		  document.body.classList.remove('body-no-scroll'); // re-enable scroll
-		}
+      introOverlay.style.display = 'none';
+      pageShell.classList.remove('blur-intro');
+      document.body.classList.remove('body-no-scroll'); // re-enable scroll
+    }
 
-		// click on overlay hides intro
-		introOverlay.addEventListener('click', hideIntro);
+    // click on overlay hides intro
+    introOverlay.addEventListener('click', hideIntro);
 
-		// click anywhere on the page hides intro
-		document.addEventListener('click', hideIntro, true);
-
+    // click anywhere on the page hides intro
+    document.addEventListener('click', hideIntro, true);
 
     // Burger menu toggle
     const burgerBtn = document.getElementById('burgerBtn');
@@ -1233,6 +1385,106 @@
     dateModal.addEventListener('click', (e) => {
       if (e.target === dateModal) {
         dateModal.style.display = 'none';
+      }
+    });
+
+    // Itinerary Modal
+    const itineraryTrigger = document.getElementById('itineraryTrigger');
+    const itineraryModal = document.getElementById('itineraryModal');
+    const itineraryCloseBtn = document.getElementById('itineraryCloseBtn');
+    const itineraryContent = document.getElementById('itineraryContent');
+
+    const itineraryData = `
+      <div class="itinerary-day">
+        <div class="itinerary-date">27th December 2025</div>
+        <div class="itinerary-item">5:10 pm - Departure to Jaisalmer on Delhi-Jaisalmer train no.12249 from Shakur Basti</div>
+      </div>
+
+      <div class="itinerary-day">
+        <div class="itinerary-date">28th December (Tea/Coffee full day will be provided in tent)</div>
+        <div class="itinerary-item">3:40 am – Train onboarding of Dina, Ashish, Navya and Naisha along with breakfast from Jodhpur</div>
+        <div class="itinerary-item">9:00 am - Arrival at Jaisalmer and departure for Sam.</div>
+        <div class="itinerary-item">11:30 am - Reach Sam and freshen up and rest till 1:00pm.</div>
+        <div class="itinerary-item">1:00 pm - 3:00 pm - Drinks and lunch ala carte</div>
+        <div class="itinerary-item itinerary-optional">OPTIONAL 1:00pm - Take packed lunch and then trip to LONGEWALA border (Total Time required 6 hrs. You will be back by 7:00pm)</div>
+        <div class="itinerary-item itinerary-optional">OPTIONAL 4:30 pm - Departure for Jeep Safari n camel ride with sunset (OPTIONAL n paid) (4:30pm - 7:30pm) OR see sunset from the tent area or nearby, camel ride(complimentary)</div>
+        <div class="itinerary-item">7:30 pm - freshen up, tea and snacks (included in package)</div>
+        <div class="itinerary-item">7:30 pm onwards – cultural program, drinks and dinner (cultural program for 1 hour followed by DJ)</div>
+      </div>
+
+      <div class="itinerary-day">
+        <div class="itinerary-date">29th December 2025</div>
+        <div class="itinerary-item itinerary-optional">OPTIONAL Jeep Safari early morning for those who are going for Longewala Border</div>
+        <div class="itinerary-item">8:30 am - Breakfast at camp</div>
+        <div class="itinerary-item">9:30 am - Departure from camp to Jaisalmer</div>
+        <div class="itinerary-item">10:30 am - Patwo ki Haveli and local sightseeing</div>
+        <div class="itinerary-item">1:00 pm – War Museum (TBD)</div>
+        <div class="itinerary-item">2:00 pm – Departure back to Jodhpur (Lunch on the way)</div>
+        <div class="itinerary-item">7:30 pm - Check-in at hotel</div>
+        <div class="itinerary-item">9:00 pm - Dinner at On the Rocks/Venture</div>
+      </div>
+
+      <div class="itinerary-day">
+        <div class="itinerary-date">30th December 2025</div>
+        <div class="itinerary-item">8:00 am - Breakfast from hotel</div>
+        <div class="itinerary-item">9:00 am - Departure to Mehrangarh Fort</div>
+        <div class="itinerary-item">1:00 pm - Departure to Ummaid Palace</div>
+        <div class="itinerary-item">2:30 pm - Departure to Gypsy restaurant, have Rajasthani Thali</div>
+        <div class="itinerary-item">5:00 pm - Back to Hotel and Relax</div>
+        <div class="itinerary-item">6:00 - 8:30 pm - Tea, Drinks</div>
+        <div class="itinerary-item">8:30 pm - Departure to Daal Baati restaurant</div>
+        <div class="itinerary-item">11:00 pm - Pack up</div>
+      </div>
+
+      <div class="itinerary-day">
+        <div class="itinerary-date">31st December</div>
+        <div class="itinerary-item">7:30 am - Onwards breakfast</div>
+        <div class="itinerary-item">8:30 am - Departure to RANAKPUR</div>
+        <div class="itinerary-item">1:00 pm - Kumbhalgarh Fort</div>
+        <div class="itinerary-item">Lunch on the way</div>
+        <div class="itinerary-item">3:30 pm - Departure to RANAKPUR Hotel</div>
+        <div class="itinerary-item">5:00 pm - Check in to hotel and relax.</div>
+        <div class="itinerary-item">6:00 pm – 7:00 pm Hi Tea, chit chat</div>
+        <div class="itinerary-item">7:30 pm - New Year Eve's party (Party Timings 7:30 pm – 12:30 am)</div>
+      </div>
+
+      <div class="itinerary-day">
+        <div class="itinerary-date">1st January 2026</div>
+        <div class="itinerary-item itinerary-optional">6:00 am - 8:30 am - Kumbhalgarh Wildlife Sanctuary tour (Crocodile Lake, Birds, Leopard, 90-degree adventure, optional)</div>
+        <div class="itinerary-item">8:00 am - Onwards breakfast (Breakfast Timings: 8:00am - 10:30am)</div>
+        <div class="itinerary-item">10:00 am - Departure to RANAKPUR Jain Temple</div>
+        <div class="itinerary-item">10:15 am - RANAKPUR Jain Temple</div>
+        <div class="itinerary-item">11:30 am - Departure to Jodhpur</div>
+        <div class="itinerary-item">4:30 pm - Hotel check-in</div>
+        <div class="itinerary-item">6:00 pm - Tea and snacks</div>
+        <div class="itinerary-item">7:30 pm - Head to clock tower and then Open Cafe at Old City.</div>
+      </div>
+
+      <div class="itinerary-day">
+        <div class="itinerary-date">2nd January 2026</div>
+        <div class="itinerary-item">8:30 am - Onwards Breakfast</div>
+        <div class="itinerary-item">10:00 am - Check-out for Shopping</div>
+        <div class="itinerary-item">2:30 pm - Lunch at local eateries</div>
+        <div class="itinerary-item">4:00 pm - Jodhpur Sweets for packing Mirchi vada, kachori, Jalibi, cookies.</div>
+        <div class="itinerary-item">5:00 pm - Departure for Railway station</div>
+      </div>
+    `;
+
+    itineraryTrigger.addEventListener('click', () => {
+      itineraryContent.innerHTML = itineraryData;
+      itineraryModal.style.display = 'flex';
+      pageShell.classList.add('blurred');
+    });
+
+    itineraryCloseBtn.addEventListener('click', () => {
+      itineraryModal.style.display = 'none';
+      pageShell.classList.remove('blurred');
+    });
+
+    itineraryModal.addEventListener('click', (e) => {
+      if (e.target === itineraryModal) {
+        itineraryModal.style.display = 'none';
+        pageShell.classList.remove('blurred');
       }
     });
 
@@ -1364,16 +1616,14 @@
     cards.forEach((card, idx) => {
       card.addEventListener('click', () => {
         activeIndex = idx;
-        updateCarousel();
+        updateCarousel('auto');
         openCardPopup(card);
       });
     });
 
     popupCloseBtn.addEventListener('click', closeCardPopup);
     cardPopupBackdrop.addEventListener('click', (e) => {
-      if (e.target === cardPopupBackdrop) {
-        closeCardPopup();
-      }
+      if (e.target === cardPopupBackdrop) closeCardPopup();
     });
 
     // Initial state
@@ -1385,4 +1635,3 @@
   </script>
 </body>
 </html>
-
